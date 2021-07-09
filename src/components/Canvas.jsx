@@ -17,7 +17,7 @@ const elements = [
     id: "1",
     data: { text: "Toucan" },
     position: { x: 250, y: 5 },
-    type: "special",
+    type: "toucan",
   },
   // you can also pass a React component as a label
   { id: "2", data: { label: <div>Node 2</div> }, position: { x: 100, y: 100 } },
@@ -31,23 +31,19 @@ const customNodeStyles = {
   width: "50px",
 };
 
-const imgStyle = {
-  width: "100%"
-};
-
-const CustomNodeComponent = ({ data }) => {
-  return (
+function createCustomNode(nodeType) {
+  return ({ data }) => (
     <div style={customNodeStyles}>
       <Handle type="target" position="left" style={{ borderRadius: 0 }} />
-      <img src={Toucan} alt="Toucan" style={imgStyle} />
+      <img src={Toucan} alt={nodeType} style={{ width: "100%" }} />
       <p>{data.text}</p>
       <Handle type="source" position="right" style={{ borderRadius: 0 }} />
     </div>
   );
-};
+}
 
 const nodeTypes = {
-  special: CustomNodeComponent,
+  toucan: createCustomNode("toucan"),
 };
 
 export default function Canvas() {
