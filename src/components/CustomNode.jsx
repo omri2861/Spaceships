@@ -34,16 +34,16 @@ const customNodeStyles = {
 function createCustomNode(nodeType) {
   return ({ data }) => (
     <div style={customNodeStyles}>
-      <Handle type="target" position="left" style={{ borderRadius: 0 }} />
+      <Handle type="target" position="top" style={{ borderRadius: 0 }} />
+      <Handle type="source" position="top" style={{ borderRadius: 0 }} />
       <img
         // TODO: Move to server
         src={typeImages[nodeType]}
         // TODO: Capitalize?
         alt={nodeType}
-        style={{ width: "100%" }}
+        style={{ width: "100%", position: "relative" }}
       />
       <p>{data.text}</p>
-      <Handle type="source" position="right" style={{ borderRadius: 0 }} />
     </div>
   );
 }
