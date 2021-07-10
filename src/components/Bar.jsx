@@ -24,7 +24,7 @@ export default function ButtonAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Animals
+            Spaceships
           </Typography>
         </Toolbar>
       </AppBar>
