@@ -1,13 +1,15 @@
 import React from "react";
-import ReactFlow from "react-flow-renderer";
+import ReactFlow, { Background, Controls } from "react-flow-renderer";
 import { makeStyles } from "@material-ui/core";
 import nodeTypes from "./CustomNode";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     border: "solid #ffffff",
-    height: "600px",
-    width: "600px",
+    // TODO: Fix canvas height to match window height
+    height: "800px",
+    width: "98%",
+    // TODO: Support theming
     backgroundColor: "#ffffff",
   },
 }));
@@ -27,14 +29,28 @@ const elements = [
   },
   { id: "e1-2", source: "1", target: "2", animated: true },
   { id: "3", data: { text: "Bee" }, position: { x: 400, y: 100 }, type: "bee" },
-  { id: "4", data: { text: "Elephant" }, position: { x: 250, y: 200 }, type: "elephant" },
+  {
+    id: "4",
+    data: { text: "Elephant" },
+    position: { x: 250, y: 200 },
+    type: "elephant",
+  },
 ];
 
 export default function Canvas() {
   const classes = useStyles();
+  
+
+  const onLoad = (reactFlowInstance) => {
+    reactFlowInstance.fitView();
+  };
+
   return (
     <div className={classes.root}>
-      <ReactFlow elements={elements} nodeTypes={nodeTypes} />
+      <ReactFlow elements={elements} nodeTypes={nodeTypes} onLoad={onLoad}>
+        <Background variant="lines" gap={12} size={1} />
+        <Controls />
+      </ReactFlow>
     </div>
   );
 }
