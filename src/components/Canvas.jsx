@@ -17,23 +17,23 @@ const useStyles = makeStyles((theme) => ({
 const elements = [
   {
     id: "1",
-    data: { text: "Toucan" },
+    data: { text: "Zorgon" },
     position: { x: 250, y: 5 },
-    type: "toucan",
+    type: "planet2",
   },
   {
     id: "2",
-    data: { text: "Whale" },
+    data: { text: "Blorgon" },
     position: { x: 100, y: 100 },
-    type: "whale",
+    type: "planet1",
   },
   { id: "e1-2", source: "1", target: "2", animated: true },
-  { id: "3", data: { text: "Bee" }, position: { x: 400, y: 100 }, type: "bee" },
+  { id: "3", data: { text: "Jack" }, position: { x: 400, y: 100 }, type: "spaceship" },
   {
     id: "4",
-    data: { text: "Elephant" },
+    data: { text: "Bomber" },
     position: { x: 250, y: 200 },
-    type: "elephant",
+    type: "rocket",
   },
 ];
 
