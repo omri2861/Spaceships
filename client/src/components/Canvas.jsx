@@ -2,6 +2,7 @@ import React from "react";
 import ReactFlow, { Background, Controls } from "react-flow-renderer";
 import { makeStyles } from "@material-ui/core";
 import nodeTypes from "./CustomNode";
+import useDrawer from "./useDrawer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +19,8 @@ export default function Canvas() {
   const classes = useStyles();
 
   const [entities, setEntities] = React.useState([]);
+
+  const entityView = useDrawer();
 
   React.useEffect(() => {
     fetch("/entities")
@@ -37,9 +40,18 @@ export default function Canvas() {
     reactFlowInstance.fitView();
   };
 
+  const onElementClick = (event, element) => {
+    entityView.showEntity(element.data);
+  };
+
   return (
     <div className={classes.root}>
-      <ReactFlow elements={entities} nodeTypes={nodeTypes} onLoad={onLoad}>
+      <ReactFlow
+        elements={entities}
+        nodeTypes={nodeTypes}
+        onLoad={onLoad}
+        onElementClick={onElementClick}
+      >
         <Background variant="lines" gap={12} size={1} />
         <Controls />
       </ReactFlow>

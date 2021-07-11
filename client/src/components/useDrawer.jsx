@@ -1,26 +1,39 @@
-import { Drawer } from "@material-ui/core";
+import { Drawer, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 
-const DrawerContext = React.createContext({ isOpen: false, toggle: () => {} });
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "250px",
+    padding: theme.spacing(1)
+  }
+}));
+
+const DrawerContext = React.createContext({ isOpen: false, showEntity: (entity) => {} });
 
 function DrawerProvider({ children }) {
-  const [drawerState, setDrawerState] = React.useState({ isOpen: false });
+  const classes = useStyles();
 
-  const toggle = () =>
+  const [drawerState, setDrawerState] = React.useState({ isOpen: false, entity: {} });
+
+  const showEntity = (entity) =>
+  // TODO: Maybe optimize with useCallback?
     setDrawerState((prevState) => ({
       ...prevState,
       isOpen: !prevState.isOpen,
+      entity: entity
     }));
-  
-    const close = () => setDrawerState((prevState) => ({...prevState, isOpen: false}));
+
+  const close = () =>
+    setDrawerState((prevState) => ({ ...prevState, isOpen: false }));
 
   return (
     <>
       <Drawer anchor="right" open={drawerState.isOpen} onClose={close}>
-        This is something I wrote
-        <div style={{ width: "250px" }} />
+        <div className={classes.root}>
+          <Typography variant="h4">{drawerState.entity.name}</Typography>
+        </div>
       </Drawer>
-      <DrawerContext.Provider value={{ ...drawerState, toggle: toggle }}>
+      <DrawerContext.Provider value={{ ...drawerState, showEntity }}>
         {children}
       </DrawerContext.Provider>
     </>
