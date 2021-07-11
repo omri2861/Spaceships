@@ -1,2 +1,5 @@
 node_modules/
+
+# Project files
 assets/
+sandbox.js
