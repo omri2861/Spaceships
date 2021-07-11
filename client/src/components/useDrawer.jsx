@@ -9,12 +9,14 @@ function DrawerProvider({ children }) {
   const toggle = () =>
     setDrawerState((prevState) => ({
       ...prevState,
-      isOpen: true,
+      isOpen: !prevState.isOpen,
     }));
+  
+    const close = () => setDrawerState((prevState) => ({...prevState, isOpen: false}));
 
   return (
     <>
-      <Drawer anchor="right" open={drawerState.isOpen}>
+      <Drawer anchor="right" open={drawerState.isOpen} onClose={close}>
         This is something I wrote
         <div style={{ width: "250px" }} />
       </Drawer>
