@@ -1,14 +1,14 @@
 import Canvas from "./components/Canvas";
 import Bar from "./components/Bar";
-import { DrawerProvider } from "./components/useDrawer";
+import { EntityViewProvider } from "./components/EntityView";
 
 function App() {
   return (
     <div>
-      <DrawerProvider>
+      <EntityViewProvider>
         <Bar />
         <Canvas />
-      </DrawerProvider>
+      </EntityViewProvider>
     </div>
   );
 }

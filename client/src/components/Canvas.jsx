@@ -2,7 +2,7 @@ import React from "react";
 import ReactFlow, { Background, Controls } from "react-flow-renderer";
 import { makeStyles } from "@material-ui/core";
 import nodeTypes from "./CustomNode";
-import useDrawer from "./useDrawer";
+import useEntityView from "./EntityView";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +20,7 @@ export default function Canvas() {
 
   const [entities, setEntities] = React.useState([]);
 
-  const entityView = useDrawer();
+  const entityView = useEntityView();
 
   React.useEffect(() => {
     fetch("/entities")
