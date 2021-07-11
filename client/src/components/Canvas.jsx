@@ -22,7 +22,12 @@ export default function Canvas() {
   React.useEffect(() => {
     fetch("/entities")
       .then((response) => response.json())
-      .then((newEntities) => setEntities(newEntities))
+      .then((newEntities) => {
+        newEntities.forEach((ent) => {
+          ent.id = ent._id;
+        });
+        setEntities(newEntities);
+      })
       // TODO: Handle error properly
       .catch(console.log);
   }, []);
