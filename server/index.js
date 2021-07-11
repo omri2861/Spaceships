@@ -8,6 +8,7 @@ app.use((req, res, next) => {
     console.log(`${req.method} - ${req.path}`);
     next();
 })
+app.use(express.static("./assets"))
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

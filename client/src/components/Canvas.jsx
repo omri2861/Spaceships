@@ -25,7 +25,7 @@ export default function Canvas() {
       .then((newEntities) => setEntities(newEntities))
       // TODO: Handle error properly
       .catch(console.log);
-  });
+  }, []);
 
   const onLoad = (reactFlowInstance) => {
     // TODO: Maybe optimize using useCallback?
