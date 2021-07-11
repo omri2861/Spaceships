@@ -1,10 +1,14 @@
-import { Drawer, makeStyles, Typography } from "@material-ui/core";
+import { Divider, Drawer, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "250px",
     padding: theme.spacing(1),
+  },
+  entityViewImage: {
+    width: "80%",
+    margin: "auto",
   },
 }));
 
@@ -18,7 +22,7 @@ function EntityViewProvider({ children }) {
 
   const [entityViewState, setEntitiyViewState] = React.useState({
     isOpen: false,
-    entity: {},
+    entity: { data: {}, name: "" },
   });
 
   const showEntity = (entity) =>
@@ -36,7 +40,18 @@ function EntityViewProvider({ children }) {
     <>
       <Drawer anchor="right" open={entityViewState.isOpen} onClose={close}>
         <div className={classes.root}>
-          <Typography variant="h4">{entityViewState.entity.name}</Typography>
+          <img
+            src={entityViewState.entity.data.image}
+            alt={entityViewState.entity.data.name}
+            className={classes.entityViewImage}
+          />
+          <Divider />
+          <Typography variant="h4">
+            {entityViewState.entity.data.name}
+          </Typography>
+          <Typography variant="subtitle1">
+            {entityViewState.entity.type}
+          </Typography>
         </div>
       </Drawer>
       <EntityViewContext.Provider value={{ ...entityViewState, showEntity }}>

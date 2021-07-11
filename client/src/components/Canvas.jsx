@@ -41,7 +41,7 @@ export default function Canvas() {
   };
 
   const onElementClick = (event, element) => {
-    entityView.showEntity(element.data);
+    entityView.showEntity(element);
   };
 
   return (
