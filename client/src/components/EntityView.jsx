@@ -3,12 +3,14 @@ import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "250px",
+    width: "300px",
     padding: theme.spacing(1),
+    display: "flex",
+    flexDirection: "column"
   },
   entityViewImage: {
     width: "80%",
-    margin: "auto",
+    margin: theme.spacing(4),
   },
 }));
 
