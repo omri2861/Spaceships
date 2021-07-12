@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, MenuItem } from "@material-ui/core";
+import { Menu, MenuItem, Typography } from "@material-ui/core";
 import { isNode, isEdge } from "react-flow-renderer";
 
 export default function ContextMenu({ mouseX, mouseY, onClose, target }) {
@@ -17,10 +17,14 @@ export default function ContextMenu({ mouseX, mouseY, onClose, target }) {
     >
       <MenuItem onClick={onClose}>Add Element</MenuItem>
       {target !== null && isNode(target) && (
-        <MenuItem onClick={onClose}>Delete</MenuItem>
+        <MenuItem onClick={onClose}>
+          <Typography color="error">Delete</Typography>
+        </MenuItem>
       )}
       {target !== null && isEdge(target) && (
-        <MenuItem onClick={onClose}>Remove Connection</MenuItem>
+        <MenuItem onClick={onClose}>
+          <Typography color="error">Remove Connection</Typography>
+        </MenuItem>
       )}
     </Menu>
   );
