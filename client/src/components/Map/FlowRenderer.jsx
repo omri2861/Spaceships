@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FlowRenderer({onElementClick}) {
+export default function FlowRenderer(props) {
   const classes = useStyles();
 
   const [entities, setEntities] = React.useState([]);
@@ -43,7 +43,7 @@ export default function FlowRenderer({onElementClick}) {
         elements={entities}
         nodeTypes={nodeTypes}
         onLoad={onLoad}
-        onElementClick={onElementClick}
+        {...props}
       >
         <Background variant="lines" gap={12} size={1} />
         <Controls />

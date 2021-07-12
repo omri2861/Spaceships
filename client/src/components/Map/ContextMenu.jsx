@@ -1,7 +1,8 @@
 import React from "react";
 import { Menu, MenuItem } from "@material-ui/core";
 
-export default function ContextMenu({ mouseX, mouseY, onClose }) {
+export default function ContextMenu({ mouseX, mouseY, onClose, target }) {
+  console.log("Opening menu for " + target);
   return (
     <Menu
       keepMounted
@@ -14,10 +15,11 @@ export default function ContextMenu({ mouseX, mouseY, onClose }) {
           : undefined
       }
     >
-      <MenuItem onClick={onClose}>Copy</MenuItem>
-      <MenuItem onClick={onClose}>Print</MenuItem>
-      <MenuItem onClick={onClose}>Highlight</MenuItem>
-      <MenuItem onClick={onClose}>Email</MenuItem>
+      <MenuItem onClick={onClose}>Add Element</MenuItem>
+      {target === "node" && <MenuItem onClick={onClose}>Delete</MenuItem>}
+      {target === "edge" && (
+        <MenuItem onClick={onClose}>Remove Connection</MenuItem>
+      )}
     </Menu>
   );
 }
