@@ -2,7 +2,7 @@ import React from "react";
 import ReactFlow, { Background, Controls } from "react-flow-renderer";
 import { makeStyles } from "@material-ui/core";
 import nodeTypes from "./CustomNode";
-import useEntityView from "./EntityView/EntityDrawer";
+import EntityDrawer from "./EntityView/EntityDrawer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +20,10 @@ export default function Canvas() {
 
   const [entities, setEntities] = React.useState([]);
 
-  const entityView = useEntityView();
+  const [infoDrawerState, setInfoDrawerState] = React.useState({
+    isOpen: false,
+    entity: { data: {}, name: "" },
+  });
 
   React.useEffect(() => {
     fetch("/entities")
@@ -41,8 +44,11 @@ export default function Canvas() {
   };
 
   const onElementClick = (event, element) => {
-    entityView.showEntity(element);
+    setInfoDrawerState({ entity: element, isOpen: true });
   };
+
+  const closeDrawer = () =>
+    setInfoDrawerState((prevState) => ({ ...prevState, isOpen: false }));
 
   return (
     <div className={classes.root}>
@@ -55,6 +61,11 @@ export default function Canvas() {
         <Background variant="lines" gap={12} size={1} />
         <Controls />
       </ReactFlow>
+      <EntityDrawer
+        entity={infoDrawerState.entity}
+        open={infoDrawerState.isOpen}
+        onClose={closeDrawer}
+      />
     </div>
   );
 }
