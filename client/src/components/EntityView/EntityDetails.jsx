@@ -1,4 +1,11 @@
-import { Box, Divider, List, makeStyles, Typography, ListItem, ListItemText } from "@material-ui/core";
+import {
+  Box,
+  Divider,
+  List,
+  makeStyles,
+  Typography,
+  ListItem,
+} from "@material-ui/core";
 import {
   LocalGasStation,
   Speed,
@@ -9,13 +16,15 @@ import {
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "400px",
-    padding: theme.spacing(1),
     display: "flex",
     flexDirection: "column",
   },
   entityViewImage: {
     width: "80%",
-    margin: theme.spacing(4),
+    margin: theme.spacing(5),
+  },
+  header: {
+    margin: theme.spacing(1),
   },
   fieldList: {
     display: "grid",
@@ -59,8 +68,10 @@ export default function EntityDetails({ entity }) {
         className={classes.entityViewImage}
       />
       <Divider />
-      <Typography variant="h4">{entity.data.name}</Typography>
-      <Typography variant="subtitle1">{entity.type}</Typography>
+      <Box className={classes.header}>
+        <Typography variant="h4">{entity.data.name}</Typography>
+        <Typography variant="subtitle1">{entity.type}</Typography>
+      </Box>
       <div className={classes.fieldList}>
         <Field icon={<LocalGasStation />} value={`${entity.data.fuel} gal.`} />
         <Field icon={<Speed />} value={`${entity.data.speed} Km/h`} />
@@ -69,7 +80,9 @@ export default function EntityDetails({ entity }) {
       </div>
       <Divider />
       <List>
-        {entity.data.functions.map((func) => <ListItemLink>{func}</ListItemLink>)}
+        {entity.data.functions.map((func) => (
+          <ListItemLink>{func}</ListItemLink>
+        ))}
       </List>
     </div>
   );
