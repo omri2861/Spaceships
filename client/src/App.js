@@ -1,11 +1,11 @@
-import Canvas from "./components/Map/Canvas";
+import Map from "./components/Map/Map";
 import Bar from "./components/Bar";
 
 function App() {
   return (
     <div>
-        <Bar />
-        <Canvas />
+      <Bar />
+      <Map />
     </div>
   );
 }
