@@ -11,7 +11,7 @@ const initialContextMenuState = {
 
 export default function Map() {
   const [infoDrawerState, setInfoDrawerState] = React.useState({
-    isOpen: false,
+    open: false,
     entity: { data: {}, name: "" },
   });
 
@@ -20,10 +20,10 @@ export default function Map() {
   );
 
   const closeDrawer = () =>
-    setInfoDrawerState((prevState) => ({ ...prevState, isOpen: false }));
+    setInfoDrawerState((prevState) => ({ ...prevState, open: false }));
 
   const onElementClick = (event, element) => {
-    setInfoDrawerState({ entity: element, isOpen: true });
+    setInfoDrawerState({ entity: element, open: true });
   };
 
   const openContextMenu = (event) => {
@@ -39,11 +39,7 @@ export default function Map() {
   return (
     <Box onContextMenu={openContextMenu} style={{ cursor: "context-menu" }}>
       <FlowRenderer onElementClick={onElementClick} />
-      <EntityDrawer
-        entity={infoDrawerState.entity}
-        open={infoDrawerState.isOpen}
-        onClose={closeDrawer}
-      />
+      <EntityDrawer {...infoDrawerState} onClose={closeDrawer} />
       <ContextMenu {...contextMenuState} onClose={closeContextMenu} />
     </Box>
   );
