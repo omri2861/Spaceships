@@ -1,28 +1,23 @@
 import React from "react";
 import { Menu, MenuItem } from "@material-ui/core";
 
-export default function MapContextMenu() {
-  const [state, setState] = React.useState(initialState);
-
-  const handleClose = () => {
-    setState(initialState);
-  };
+export default function ContextMenu({ mouseX, mouseY, onClose }) {
   return (
     <Menu
       keepMounted
-      open={state.mouseY !== null}
-      onClose={handleClose}
+      open={mouseY !== null}
+      onClose={onClose}
       anchorReference="anchorPosition"
       anchorPosition={
-        state.mouseY !== null && state.mouseX !== null
-          ? { top: state.mouseY, left: state.mouseX }
+        mouseY !== null && mouseX !== null
+          ? { top: mouseY, left: mouseX }
           : undefined
       }
     >
-      <MenuItem onClick={handleClose}>Copy</MenuItem>
-      <MenuItem onClick={handleClose}>Print</MenuItem>
-      <MenuItem onClick={handleClose}>Highlight</MenuItem>
-      <MenuItem onClick={handleClose}>Email</MenuItem>
+      <MenuItem onClick={onClose}>Copy</MenuItem>
+      <MenuItem onClick={onClose}>Print</MenuItem>
+      <MenuItem onClick={onClose}>Highlight</MenuItem>
+      <MenuItem onClick={onClose}>Email</MenuItem>
     </Menu>
   );
 }
