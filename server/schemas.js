@@ -10,6 +10,7 @@ const entitySchema = new Schema({
     speed: { type: Number, required: false },
     engines: { type: Number, required: false },
     species: { type: String, required: false },
+    functions: [String],
   },
   position: {
     x: Number,

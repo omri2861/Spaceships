@@ -1,4 +1,4 @@
-import { Box, Divider, makeStyles, Typography } from "@material-ui/core";
+import { Box, Divider, List, makeStyles, Typography, ListItem, ListItemText } from "@material-ui/core";
 import {
   LocalGasStation,
   Speed,
@@ -44,6 +44,10 @@ function Field({ icon, value }) {
   );
 }
 
+function ListItemLink(props) {
+  return <ListItem button component="a" {...props} />;
+}
+
 export default function EntityDetails({ entity }) {
   const classes = useStyles();
 
@@ -63,6 +67,10 @@ export default function EntityDetails({ entity }) {
         <Field icon={<Flare />} value={`${entity.data.engines}`} />
         <Field icon={<AccountCircle />} value={`${entity.data.species}`} />
       </div>
+      <Divider />
+      <List>
+        {entity.data.functions.map((func) => <ListItemLink>{func}</ListItemLink>)}
+      </List>
     </div>
   );
 }
