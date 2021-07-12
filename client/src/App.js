@@ -1,4 +1,4 @@
-import Canvas from "./components/Canvas";
+import Canvas from "./components/Map/Canvas";
 import Bar from "./components/Bar";
 
 function App() {

@@ -2,7 +2,7 @@ import React from "react";
 import ReactFlow, { Background, Controls } from "react-flow-renderer";
 import { makeStyles } from "@material-ui/core";
 import nodeTypes from "./CustomNode";
-import EntityDrawer from "./EntityView/EntityDrawer";
+import EntityDrawer from "../EntityView/EntityDrawer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
