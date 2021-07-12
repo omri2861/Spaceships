@@ -7,7 +7,7 @@ import ContextMenu from "./ContextMenu";
 const initialContextMenuState = {
   mouseX: null,
   mouseY: null,
-  target: "pane",
+  target: null,
 };
 
 export default function Map() {
@@ -27,25 +27,33 @@ export default function Map() {
     setInfoDrawerState({ entity: element, open: true });
   };
 
-  function openContextMenu(target) {
-    return (event) => {
-      event.preventDefault();
-      setContextMenuState({
-        mouseX: event.clientX - 2,
-        mouseY: event.clientY - 4,
-        target,
-      });
-    };
-  }
+  const paneContextMenu = (event) => {
+    event.preventDefault();
+    setContextMenuState({
+      mouseX: event.clientX - 2,
+      mouseY: event.clientY - 4,
+      target: null,
+    });
+  };
+
+  const elementContextMenu = (event, node) => {
+    event.preventDefault();
+    setContextMenuState({
+      mouseX: event.clientX - 2,
+      mouseY: event.clientY - 4,
+      target: node,
+    });
+  };
 
   const closeContextMenu = () => setContextMenuState(initialContextMenuState);
 
   return (
     <Box>
       <FlowRenderer
-        onPaneContextMenu={openContextMenu("pane")}
+        onPaneContextMenu={paneContextMenu}
         onElementClick={onElementClick}
-        onNodeContextMenu={openContextMenu("node")}
+        onNodeContextMenu={elementContextMenu}
+        onEdgeContextMenu={elementContextMenu}
       />
       <EntityDrawer {...infoDrawerState} onClose={closeDrawer} />
       <ContextMenu {...contextMenuState} onClose={closeContextMenu} />

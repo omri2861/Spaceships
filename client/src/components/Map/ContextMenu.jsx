@@ -1,8 +1,8 @@
 import React from "react";
 import { Menu, MenuItem } from "@material-ui/core";
+import { isNode, isEdge } from "react-flow-renderer";
 
 export default function ContextMenu({ mouseX, mouseY, onClose, target }) {
-  console.log("Opening menu for " + target);
   return (
     <Menu
       keepMounted
@@ -16,8 +16,10 @@ export default function ContextMenu({ mouseX, mouseY, onClose, target }) {
       }
     >
       <MenuItem onClick={onClose}>Add Element</MenuItem>
-      {target === "node" && <MenuItem onClick={onClose}>Delete</MenuItem>}
-      {target === "edge" && (
+      {target !== null && isNode(target) && (
+        <MenuItem onClick={onClose}>Delete</MenuItem>
+      )}
+      {target !== null && isEdge(target) && (
         <MenuItem onClick={onClose}>Remove Connection</MenuItem>
       )}
     </Menu>
