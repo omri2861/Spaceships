@@ -25,7 +25,7 @@ const emptyElement = {
   type: "vessel",
 };
 
-export default function AddNodeDialog({ setElements }) {
+export default function AddEntityDialog({ setElements }) {
   const [newElement, setNewElement] = React.useState(emptyElement);
 
   const history = useHistory();
@@ -49,10 +49,10 @@ export default function AddNodeDialog({ setElements }) {
     <Dialog
       open={true}
       onClose={handleClose}
-      aria-labelledby="delete-node-dialog-title"
-      aria-describedby="delete-node-dialog-description"
+      aria-labelledby="delete-entity-dialog-title"
+      aria-describedby="delete-entity-dialog-description"
     >
-      <DialogTitle>Add New Element</DialogTitle>
+      <DialogTitle>Add New Entity</DialogTitle>
       <DialogContent>
         <NewElementForm newElement={newElement} setNewElement={setNewElement} />
       </DialogContent>

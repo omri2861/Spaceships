@@ -3,8 +3,8 @@ import { Box } from "@material-ui/core";
 import FlowRenderer from "./FlowRenderer";
 import EntityDrawer from "../EntityView/EntityDrawer";
 import ContextMenu from "./ContextMenu";
-import DeleteNodeDialog from "./DeleteNodeDialog";
-import AddNodeDialog from "./AddNodeDialog";
+import DeleteEntityDialog from "./DeleteEntityDialog";
+import AddEntityDialog from "./AddEntityDialog";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
 export default function Map() {
@@ -73,10 +73,10 @@ export default function Map() {
 
         <Switch>
           <Route path="/deleteEntity">
-            <DeleteNodeDialog target={target} setElements={setElements} />
+            <DeleteEntityDialog target={target} setElements={setElements} />
           </Route>
           <Route path="/addEntity">
-            <AddNodeDialog setElements={setElements} />
+            <AddEntityDialog setElements={setElements} />
           </Route>
         </Switch>
       </Router>

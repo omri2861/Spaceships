@@ -1,14 +1,17 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { removeElements } from "react-flow-renderer";
 
-export default function DeleteNodeDialog({ target, setElements }) {
+export default function DeleteEntityDialog({ target, setElements }) {
   const history = useHistory();
 
   const handleClose = () => {
@@ -38,9 +41,10 @@ export default function DeleteNodeDialog({ target, setElements }) {
     <Dialog
       open={true}
       onClose={handleClose}
-      aria-labelledby="delete-node-dialog-title"
-      aria-describedby="delete-node-dialog-description"
+      aria-labelledby="delete-entity-dialog-title"
+      aria-describedby="delete-entity-dialog-description"
     >
+      <DialogTitle>Delete Entity</DialogTitle>
       <DialogContent>
         <DialogContentText id="delete-dialog-description">
           Are you sure you want to delete '{target.data.name}'?

@@ -32,7 +32,8 @@ The map contains some elements, so we'll address these as well.
 
 1. Element - An element is a single thing presented in the map. It could be an entity, or a connection
    between entities.
-2. Entity - A single transportation unit, presented on the map. More of a logical term.
+2. Entity - A single transportation unit, presented on the map. More of a logical term. May refer to
+   the element's data property.
 3. Node - The technical term, for the implementataion of an Entity.
 4. Edge - A connection between two nodes.
 5. Connection - An alias for `Edge`. Or, a connection between two entities, if you'd like.
