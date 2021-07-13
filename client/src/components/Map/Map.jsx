@@ -4,6 +4,7 @@ import FlowRenderer from "./FlowRenderer";
 import EntityDrawer from "../EntityView/EntityDrawer";
 import ContextMenu from "./ContextMenu";
 import DeleteNodeDialog from "./DeleteNodeDialog";
+import AddNodeDialog from "./AddNodeDialog";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
 const initialContextMenuState = {
@@ -87,6 +88,9 @@ export default function Map() {
               target={contextMenuState.target}
               setElements={setEntities}
             />
+          </Route>
+          <Route path="/addElement">
+            <AddNodeDialog setElements={setEntities} />
           </Route>
         </Switch>
       </Router>
