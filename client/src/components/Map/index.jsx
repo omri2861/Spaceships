@@ -1,10 +1,10 @@
 import React from "react";
 import { Box } from "@material-ui/core";
 import EntityPane from "./EntityPane";
-import EntityDrawer from "../EntityView";
+import EntityDrawer from "./EntityView";
 import ContextMenu from "./ContextMenu";
-import DeleteEntityDialog from "./DeleteEntityDialog";
-import AddEntityDialog from "./AddEntityDialog";
+import DeleteEntityDialog from "./Dialogs/DeleteEntityDialog";
+import AddEntityDialog from "./Dialogs/AddEntityDialog";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
 export default function Map() {
