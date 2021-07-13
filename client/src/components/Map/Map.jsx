@@ -83,7 +83,10 @@ export default function Map() {
 
         <Switch>
           <Route path="/deleteElement">
-            <DeleteNodeDialog target={contextMenuState.target} />
+            <DeleteNodeDialog
+              target={contextMenuState.target}
+              setElements={setEntities}
+            />
           </Route>
         </Switch>
       </Router>

@@ -5,7 +5,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import { useHistory } from "react-router-dom";
-import {axios} from "axios";
+import axios from "axios";
 import { removeElements } from "react-flow-renderer";
 
 export default function DeleteNodeDialog({ target, setElements }) {
