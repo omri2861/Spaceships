@@ -1,70 +1,38 @@
-# Getting Started with Create React App
+# Spaceships
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Intro
 
-## Available Scripts
+This project is a nice web utility which helps track interstellar transportation networks.
 
-In the project directory, you can run:
+For each interstellar vessel, the app calculates the following:
 
-### `npm start`
+1. Which planets can it reach with it's speed?
+2. How far can it go with it's fuel? Where can it refuel?
+3. Which are the other vesseles it might encounter in it's path?
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+In addition to these, each element in the transportation network may have some server functions
+it can run.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Code Terms
 
-### `npm test`
+These are some important code terms you should know about if you're diving in.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### The Map
 
-### `npm run build`
+The map is the big space in the middle of the site which allows to view the transportation network & elements. It includes some other compoenents, so I'll line these up:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. The map - Refers to this area as a whole, along with the rest of it's sub components and elements.
+2. The pane - The flow rendring area itself, without the sub components.
+3. `FlowRenderer`, `Canvas` - Deprecated, and should be removed from the code. Used these back when
+   I wasn't sure about my names.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### The Elements
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The map contains some elements, so we'll address these as well.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Element - An element is a single thing presented in the map. It could be an entity, or a connection
+   between entities.
+2. Entity - A single transportation unit, presented on the map. More of a logical term.
+3. Node - The technical term, for the implementataion of an Entity.
+4. Edge - A connection between two nodes.
+5. Connection - An alias for `Edge`. Or, a connection between two entities, if you'd like.
