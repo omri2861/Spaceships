@@ -1,11 +1,15 @@
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContentText,
+  DialogTitle,
+  DialogContent,
+} from "@material-ui/core";
 
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import NewElementForm from "./NewElementForm";
 
 export default function AddNodeDialog({ setElements }) {
   const elementTemplate = {
@@ -46,10 +50,11 @@ export default function AddNodeDialog({ setElements }) {
       aria-labelledby="delete-node-dialog-title"
       aria-describedby="delete-node-dialog-description"
     >
+    <DialogTitle>
+      Add New Element
+    </DialogTitle>
       <DialogContent>
-        <DialogContentText id="delete-dialog-description">
-          New element will be added: {JSON.stringify(elementTemplate)}
-        </DialogContentText>
+        <NewElementForm />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} style={{ color: "red" }}>
