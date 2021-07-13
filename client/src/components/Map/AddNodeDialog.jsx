@@ -34,9 +34,9 @@ export default function AddNodeDialog({ setElements }) {
     history.push("/"); // TODO: Go back, not home
   };
 
-  const addElement = () =>
+  const addEntity = () =>
   axios
-    .post("/api/addElement", newElement)
+    .post("/api/addEntity", newElement)
     .then((res) => {
       let addedElement = res.data;
       addedElement.id = addedElement._id;
@@ -60,7 +60,7 @@ export default function AddNodeDialog({ setElements }) {
         <Button onClick={handleClose} style={{ color: "red" }}>
           Cancel
         </Button>
-        <Button onClick={addElement} autoFocus>
+        <Button onClick={addEntity} autoFocus>
           Yes
         </Button>
       </DialogActions>

@@ -15,13 +15,13 @@ export default function DeleteNodeDialog({ target, setElements }) {
     history.push("/"); // TODO: Go back, not home
   };
 
-  const deleteElement = () => {
+  const deleteEntity = () => {
     if (target == null) {
       console.error("Trying to delete null element");
       return;
     }
     axios
-      .delete(`/api/deleteElement/${target.id}`)
+      .delete(`/api/deleteEntity/${target.id}`)
       .then(
         setElements((prevElements) => removeElements([target], prevElements))
       )
@@ -50,7 +50,7 @@ export default function DeleteNodeDialog({ target, setElements }) {
         <Button onClick={handleClose} style={{ color: "red" }}>
           Cancel
         </Button>
-        <Button onClick={deleteElement} autoFocus>
+        <Button onClick={deleteEntity} autoFocus>
           Yes
         </Button>
       </DialogActions>

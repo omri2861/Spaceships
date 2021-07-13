@@ -8,7 +8,7 @@ import AddNodeDialog from "./AddNodeDialog";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
 export default function Map() {
-  const [entities, setEntities] = React.useState([]);
+  const [elements, setElements] = React.useState([]);
 
   const [target, setTarget] = React.useState(null);
 
@@ -22,11 +22,11 @@ export default function Map() {
   React.useEffect(() => {
     fetch("/entities")
       .then((response) => response.json())
-      .then((newEntities) => {
-        newEntities.forEach((ent) => {
+      .then((newElements) => {
+        newElements.forEach((ent) => {
           ent.id = ent._id;
         });
-        setEntities(newEntities);
+        setElements(newElements);
       })
       // TODO: Handle error properly
       .catch(console.log);
@@ -61,22 +61,22 @@ export default function Map() {
           onElementClick={onElementClick}
           onNodeContextMenu={showContextMenu}
           onEdgeContextMenu={showContextMenu}
-          elements={entities}
+          elements={elements}
         />
         <EntityDrawer entity={target} open={showDrawer} onClose={closeDrawer} />
         <ContextMenu
           {...contextMenuState}
           onClose={closeContextMenu}
-          setElements={setEntities}
+          setElements={setElements}
           target={target}
         />
 
         <Switch>
-          <Route path="/deleteElement">
-            <DeleteNodeDialog target={target} setElements={setEntities} />
+          <Route path="/deleteEntity">
+            <DeleteNodeDialog target={target} setElements={setElements} />
           </Route>
-          <Route path="/addElement">
-            <AddNodeDialog setElements={setEntities} />
+          <Route path="/addEntity">
+            <AddNodeDialog setElements={setElements} />
           </Route>
         </Switch>
       </Router>

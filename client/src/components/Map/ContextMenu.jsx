@@ -25,9 +25,9 @@ export default function ContextMenu({ mouseX, mouseY, onClose, target }) {
           : undefined
       }
     >
-      <MenuItem onClick={redirect("/addElement")}>Add Element</MenuItem>
+      <MenuItem onClick={redirect("/addEntity")}>Add Element</MenuItem>
       {target !== null && isNode(target) && (
-        <MenuItem onClick={redirect("/deleteElement")}>
+        <MenuItem onClick={redirect("/deleteEntity")}>
           <Typography color="error">Delete</Typography>
         </MenuItem>
       )}
