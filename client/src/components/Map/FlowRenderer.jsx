@@ -17,21 +17,6 @@ const useStyles = makeStyles((theme) => ({
 export default function FlowRenderer(props) {
   const classes = useStyles();
 
-  const [entities, setEntities] = React.useState([]);
-
-  React.useEffect(() => {
-    fetch("/entities")
-      .then((response) => response.json())
-      .then((newEntities) => {
-        newEntities.forEach((ent) => {
-          ent.id = ent._id;
-        });
-        setEntities(newEntities);
-      })
-      // TODO: Handle error properly
-      .catch(console.log);
-  }, []);
-
   const onLoad = (reactFlowInstance) => {
     // TODO: Maybe optimize using useCallback?
     reactFlowInstance.fitView();
@@ -40,7 +25,6 @@ export default function FlowRenderer(props) {
   return (
     <div className={classes.root}>
       <ReactFlow
-        elements={entities}
         nodeTypes={nodeTypes}
         onLoad={onLoad}
         {...props}

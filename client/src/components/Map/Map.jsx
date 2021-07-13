@@ -20,6 +20,21 @@ export default function Map() {
     initialContextMenuState
   );
 
+  const [entities, setEntities] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch("/entities")
+      .then((response) => response.json())
+      .then((newEntities) => {
+        newEntities.forEach((ent) => {
+          ent.id = ent._id;
+        });
+        setEntities(newEntities);
+      })
+      // TODO: Handle error properly
+      .catch(console.log);
+  }, []);
+
   const closeDrawer = () =>
     setInfoDrawerState((prevState) => ({ ...prevState, open: false }));
 
@@ -54,9 +69,10 @@ export default function Map() {
         onElementClick={onElementClick}
         onNodeContextMenu={elementContextMenu}
         onEdgeContextMenu={elementContextMenu}
+        elements={entities}
       />
       <EntityDrawer {...infoDrawerState} onClose={closeDrawer} />
-      <ContextMenu {...contextMenuState} onClose={closeContextMenu} />
+      <ContextMenu {...contextMenuState} onClose={closeContextMenu} setElements={setEntities} />
     </Box>
   );
 }
