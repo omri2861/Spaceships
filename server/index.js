@@ -36,6 +36,15 @@ app.post("/api/addElement", (req, res) => {
     });
 });
 
+app.delete("/api/deleteElement/:elementId", (req, res) => {
+  Entity.findByIdAndDelete(req.params.elementId)
+    .then(res.sendStatus(200))
+    .catch((err) => {
+      res.status(500);
+      res.send(err);
+    });
+});
+
 mongoose
   .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB server..."));
