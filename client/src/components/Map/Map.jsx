@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@material-ui/core";
-import FlowRenderer from "./FlowRenderer";
+import EntityPane from "./EntityPane";
 import EntityDrawer from "../EntityView/EntityDrawer";
 import ContextMenu from "./ContextMenu";
 import DeleteEntityDialog from "./DeleteEntityDialog";
@@ -56,7 +56,7 @@ export default function Map() {
   return (
     <Box>
       <Router>
-        <FlowRenderer
+        <EntityPane
           onPaneContextMenu={showContextMenu}
           onElementClick={onElementClick}
           onNodeContextMenu={showContextMenu}

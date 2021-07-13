@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FlowRenderer(props) {
+export default function EntityPane(props) {
   const classes = useStyles();
 
   const onLoad = (reactFlowInstance) => {
