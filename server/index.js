@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 
 const { Entity } = require("./schemas");
+const imageNames = require("./getImages");
 
 const port = 8000;
 const mongoUri = "mongodb://localhost/Spaceships";
@@ -44,6 +45,10 @@ app.delete("/api/deleteElement/:elementId", (req, res) => {
       res.send(err);
     });
 });
+
+app.get("/api/imageNames", (req, res) => {
+  res.send(imageNames);
+})
 
 mongoose
   .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })

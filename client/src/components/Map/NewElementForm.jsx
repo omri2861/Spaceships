@@ -8,6 +8,7 @@ import {
   MenuItem,
   makeStyles,
 } from "@material-ui/core";
+import ImageSelection from "./ImageSelection";
 
 const spacing = 2;
 
@@ -44,6 +45,12 @@ export default function NewElementForm({ newElement, setNewElement }) {
     }
   };
 
+  const setImage = (newImageName) =>
+    setNewElement((prevElement) => ({
+      ...prevElement,
+      data: { ...prevElement.data, image: newImageName },
+    }));
+
   return (
     <>
       <Grid container spacing={spacing}>
@@ -56,15 +63,9 @@ export default function NewElementForm({ newElement, setNewElement }) {
           type="string"
           onChange={onChange}
         />
-        <GridItemTextField
-          autoFocus
-          margin="dense"
-          id="image"
-          value={newElement.data.image}
-          label="Image"
-          type="string"
-          onChange={onChange}
-        />
+        <Grid item sm={6}>
+          <ImageSelection value={newElement.data.image} setValue={setImage} />
+        </Grid>
         <Grid item>
           <FormControl className={classes.selection}>
             <InputLabel>Type</InputLabel>
