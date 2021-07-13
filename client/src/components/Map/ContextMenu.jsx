@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, MenuItem, Typography } from "@material-ui/core";
 import { isNode, isEdge } from "react-flow-renderer";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export default function ContextMenu({ mouseX, mouseY, onClose, target }) {
   const history = useHistory();
