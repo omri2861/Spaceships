@@ -34,16 +34,16 @@ export default function AddNodeDialog({ setElements }) {
     history.push("/"); // TODO: Go back, not home
   };
 
-  const addElement = () => console.log(newElement);
-  // axios
-  //   .post("/api/addElement", newElement)
-  //   .then((res) => {
-  //     let addedElement = res.data;
-  //     addedElement.id = addedElement._id;
-  //     setElements((prevElements) => [...prevElements, addedElement]);
-  //   })
-  //   .then(handleClose)
-  //   .catch(console.error);
+  const addElement = () =>
+  axios
+    .post("/api/addElement", newElement)
+    .then((res) => {
+      let addedElement = res.data;
+      addedElement.id = addedElement._id;
+      setElements((prevElements) => [...prevElements, addedElement]);
+    })
+    .then(handleClose)
+    .catch(console.error);
 
   return (
     <Dialog
