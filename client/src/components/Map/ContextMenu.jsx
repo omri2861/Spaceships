@@ -1,9 +1,16 @@
 import React from "react";
 import { Menu, MenuItem, Typography } from "@material-ui/core";
 import { isNode, isEdge } from "react-flow-renderer";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function ContextMenu({ mouseX, mouseY, onClose, target }) {
+  const history = useHistory();
+
+  const redirect = (to) => {
+    // TODO: also close menu, when you fix delete issue
+    return () => history.push(to);
+  };
+
   return (
     <Menu
       keepMounted
@@ -16,15 +23,11 @@ export default function ContextMenu({ mouseX, mouseY, onClose, target }) {
           : undefined
       }
     >
-      <Link to="/addElement">
-        <MenuItem>Add Element</MenuItem>
-      </Link>
+      <MenuItem onClick={redirect("/addElement")}>Add Element</MenuItem>
       {target !== null && isNode(target) && (
-        <Link to="/deleteElement">
-          <MenuItem>
-            <Typography color="error">Delete</Typography>
-          </MenuItem>
-        </Link>
+        <MenuItem onClick={redirect("/deleteElement")}>
+          <Typography color="error">Delete</Typography>
+        </MenuItem>
       )}
       {target !== null && isEdge(target) && (
         <MenuItem onClick={onClose}>
