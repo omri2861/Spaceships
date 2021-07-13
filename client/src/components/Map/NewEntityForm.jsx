@@ -27,7 +27,7 @@ const GridItemTextField = (props) => (
   </Grid>
 );
 
-export default function NewElementForm({ newElement, setNewElement }) {
+export default function NewEntityForm({ newElement, setNewElement }) {
   const classes = useStyles();
 
   const onChange = (event) => {

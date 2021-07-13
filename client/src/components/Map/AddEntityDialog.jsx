@@ -9,7 +9,7 @@ import {
 
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import NewElementForm from "./NewElementForm";
+import NewEntityForm from "./NewEntityForm";
 
 const emptyElement = {
   data: {
@@ -54,7 +54,7 @@ export default function AddEntityDialog({ setElements }) {
     >
       <DialogTitle>Add New Entity</DialogTitle>
       <DialogContent>
-        <NewElementForm newElement={newElement} setNewElement={setNewElement} />
+        <NewEntityForm newElement={newElement} setNewElement={setNewElement} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} style={{ color: "red" }}>
