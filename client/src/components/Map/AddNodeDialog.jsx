@@ -1,8 +1,8 @@
+import React from "react";
 import {
   Button,
   Dialog,
   DialogActions,
-  DialogContentText,
   DialogTitle,
   DialogContent,
 } from "@material-ui/core";
@@ -11,20 +11,22 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import NewElementForm from "./NewElementForm";
 
+const emptyElement = {
+  data: {
+    name: "",
+    image: "",
+    functions: ["Fix Spaceship", "Eat"],
+    engines: "",
+    fuel: "",
+    species: "",
+    speed: "",
+  },
+  position: { x: 200, y: 250 },
+  type: "vessel",
+};
+
 export default function AddNodeDialog({ setElements }) {
-  const elementTemplate = {
-    data: {
-      name: "Temp",
-      image: "/astronaut1.png",
-      functions: ["Fix Spaceship", "Eat"],
-      engines: 1,
-      fuel: 13,
-      species: "Human",
-      speed: 50,
-    },
-    position: { x: 200, y: 250 },
-    type: "vessel",
-  };
+  const [newElement, setNewElement] = React.useState(emptyElement);
 
   const history = useHistory();
 
@@ -32,16 +34,16 @@ export default function AddNodeDialog({ setElements }) {
     history.push("/"); // TODO: Go back, not home
   };
 
-  const addElement = () =>
-    axios
-      .post("/api/addElement", elementTemplate)
-      .then((res) => {
-        let addedElement = res.data;
-        addedElement.id = addedElement._id;
-        setElements((prevElements) => [...prevElements, addedElement]);
-      })
-      .then(handleClose)
-      .catch(console.error);
+  const addElement = () => console.log(newElement);
+  // axios
+  //   .post("/api/addElement", newElement)
+  //   .then((res) => {
+  //     let addedElement = res.data;
+  //     addedElement.id = addedElement._id;
+  //     setElements((prevElements) => [...prevElements, addedElement]);
+  //   })
+  //   .then(handleClose)
+  //   .catch(console.error);
 
   return (
     <Dialog
@@ -50,11 +52,9 @@ export default function AddNodeDialog({ setElements }) {
       aria-labelledby="delete-node-dialog-title"
       aria-describedby="delete-node-dialog-description"
     >
-    <DialogTitle>
-      Add New Element
-    </DialogTitle>
+      <DialogTitle>Add New Element</DialogTitle>
       <DialogContent>
-        <NewElementForm />
+        <NewElementForm newElement={newElement} setNewElement={setNewElement} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} style={{ color: "red" }}>
