@@ -7,23 +7,17 @@ import DeleteNodeDialog from "./DeleteNodeDialog";
 import AddNodeDialog from "./AddNodeDialog";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
-const initialContextMenuState = {
-  mouseX: null,
-  mouseY: null,
-  target: null,
-};
-
 export default function Map() {
-  const [infoDrawerState, setInfoDrawerState] = React.useState({
-    open: false,
-    entity: { data: {}, name: "" },
-  });
-
-  const [contextMenuState, setContextMenuState] = React.useState(
-    initialContextMenuState
-  );
-
   const [entities, setEntities] = React.useState([]);
+
+  const [target, setTarget] = React.useState(null);
+
+  const [showDrawer, setShowDrawer] = React.useState(false);
+
+  const [contextMenuState, setContextMenuState] = React.useState({
+    mouseX: null,
+    mouseY: null,
+  });
 
   React.useEffect(() => {
     fetch("/entities")
@@ -38,56 +32,48 @@ export default function Map() {
       .catch(console.log);
   }, []);
 
-  const closeDrawer = () =>
-    setInfoDrawerState((prevState) => ({ ...prevState, open: false }));
-
   const onElementClick = (event, element) => {
-    setInfoDrawerState({ entity: element, open: true });
+    setTarget(element);
+    setShowDrawer(true);
   };
 
-  const paneContextMenu = (event) => {
+  const closeDrawer = () => setShowDrawer(false);
+
+  const showContextMenu = (event, node) => {
     event.preventDefault();
+    if (node !== undefined) {
+      setTarget(node);
+    }
     setContextMenuState({
       mouseX: event.clientX - 2,
       mouseY: event.clientY - 4,
-      target: null,
     });
   };
 
-  const elementContextMenu = (event, node) => {
-    event.preventDefault();
-    setContextMenuState({
-      mouseX: event.clientX - 2,
-      mouseY: event.clientY - 4,
-      target: node,
-    });
-  };
-
-  const closeContextMenu = () => setContextMenuState(initialContextMenuState);
+  const closeContextMenu = () =>
+    setContextMenuState({ mouseX: null, mouseY: null });
 
   return (
     <Box>
       <Router>
         <FlowRenderer
-          onPaneContextMenu={paneContextMenu}
+          onPaneContextMenu={showContextMenu}
           onElementClick={onElementClick}
-          onNodeContextMenu={elementContextMenu}
-          onEdgeContextMenu={elementContextMenu}
+          onNodeContextMenu={showContextMenu}
+          onEdgeContextMenu={showContextMenu}
           elements={entities}
         />
-        <EntityDrawer {...infoDrawerState} onClose={closeDrawer} />
+        <EntityDrawer entity={target} open={showDrawer} onClose={closeDrawer} />
         <ContextMenu
           {...contextMenuState}
           onClose={closeContextMenu}
           setElements={setEntities}
+          target={target}
         />
 
         <Switch>
           <Route path="/deleteElement">
-            <DeleteNodeDialog
-              target={contextMenuState.target}
-              setElements={setEntities}
-            />
+            <DeleteNodeDialog target={target} setElements={setEntities} />
           </Route>
           <Route path="/addElement">
             <AddNodeDialog setElements={setEntities} />

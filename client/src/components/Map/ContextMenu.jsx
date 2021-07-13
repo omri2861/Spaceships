@@ -7,8 +7,10 @@ export default function ContextMenu({ mouseX, mouseY, onClose, target }) {
   const history = useHistory();
 
   const redirect = (to) => {
-    // TODO: also close menu, when you fix delete issue
-    return () => history.push(to);
+    return () => {
+      onClose();
+      history.push(to);
+    };
   };
 
   return (
