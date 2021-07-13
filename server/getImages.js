@@ -9,6 +9,8 @@ const fs = require("fs");
 
 const assetsDir = "./assets";
 
-const imageNames = fs.readdirSync(assetsDir);
+const imageNames = fs
+  .readdirSync(assetsDir)
+  .map((imageName) => "/" + imageName);
 
 module.exports = imageNames;
