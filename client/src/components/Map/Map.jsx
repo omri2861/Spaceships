@@ -3,6 +3,8 @@ import { Box } from "@material-ui/core";
 import FlowRenderer from "./FlowRenderer";
 import EntityDrawer from "../EntityView/EntityDrawer";
 import ContextMenu from "./ContextMenu";
+import DeleteNodeDialog from "./DeleteNodeDialog";
+import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 
 const initialContextMenuState = {
   mouseX: null,
@@ -64,15 +66,27 @@ export default function Map() {
 
   return (
     <Box>
-      <FlowRenderer
-        onPaneContextMenu={paneContextMenu}
-        onElementClick={onElementClick}
-        onNodeContextMenu={elementContextMenu}
-        onEdgeContextMenu={elementContextMenu}
-        elements={entities}
-      />
-      <EntityDrawer {...infoDrawerState} onClose={closeDrawer} />
-      <ContextMenu {...contextMenuState} onClose={closeContextMenu} setElements={setEntities} />
+      <Router>
+        <FlowRenderer
+          onPaneContextMenu={paneContextMenu}
+          onElementClick={onElementClick}
+          onNodeContextMenu={elementContextMenu}
+          onEdgeContextMenu={elementContextMenu}
+          elements={entities}
+        />
+        <EntityDrawer {...infoDrawerState} onClose={closeDrawer} />
+        <ContextMenu
+          {...contextMenuState}
+          onClose={closeContextMenu}
+          setElements={setEntities}
+        />
+
+        <Switch>
+          <Route path="/deleteElement">
+            <DeleteNodeDialog target={contextMenuState.target} />
+          </Route>
+        </Switch>
+      </Router>
     </Box>
   );
 }

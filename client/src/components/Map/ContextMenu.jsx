@@ -2,6 +2,7 @@ import React from "react";
 import { Menu, MenuItem, Typography } from "@material-ui/core";
 import { isNode, isEdge, removeElements } from "react-flow-renderer";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function ContextMenu({
   mouseX,
@@ -36,20 +37,6 @@ export default function ContextMenu({
       .catch(console.error);
   };
 
-  const deleteElement = () => {
-    if (target == null) {
-      console.error("Trying to delete null element");
-      return;
-    }
-    axios
-      .delete(`/api/deleteElement/${target.id}`)
-      .then(
-        setElements((prevElements) => removeElements([target], prevElements))
-      )
-      .then(onClose)
-      .catch(console.error);
-  };
-
   return (
     <Menu
       keepMounted
@@ -64,9 +51,11 @@ export default function ContextMenu({
     >
       <MenuItem onClick={addElement}>Add Element</MenuItem>
       {target !== null && isNode(target) && (
-        <MenuItem onClick={deleteElement}>
-          <Typography color="error">Delete</Typography>
-        </MenuItem>
+        <Link to="/deleteElement">
+          <MenuItem>
+            <Typography color="error">Delete</Typography>
+          </MenuItem>
+        </Link>
       )}
       {target !== null && isEdge(target) && (
         <MenuItem onClick={onClose}>
