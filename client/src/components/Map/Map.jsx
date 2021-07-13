@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@material-ui/core";
 import EntityPane from "./EntityPane";
-import EntityDrawer from "../EntityView/EntityDrawer";
+import EntityDrawer from "../EntityView";
 import ContextMenu from "./ContextMenu";
 import DeleteEntityDialog from "./DeleteEntityDialog";
 import AddEntityDialog from "./AddEntityDialog";
