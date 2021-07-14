@@ -48,8 +48,8 @@ function SnackbarProvider(props) {
         autoHideDuration={5000}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity="success">
-          This is a success message!
+        <Alert onClose={handleClose} severity={snackbarState.severity}>
+          {snackbarState.message}
         </Alert>
       </MuiSnackbar>
     </>

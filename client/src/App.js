@@ -6,7 +6,8 @@ import { Button } from "@material-ui/core";
 function SnackbarButton() {
   const { openSnackbar } = useSnackbar();
 
-  const handleClick = () => openSnackbar("something", "something");
+  const handleClick = () =>
+    openSnackbar("This is an error message...", "error");
 
   return <Button onClick={handleClick}>Open Snackbar</Button>;
 }
