@@ -6,12 +6,7 @@ import {
   Typography,
   ListItem,
 } from "@material-ui/core";
-import {
-  LocalGasStation,
-  Speed,
-  Flare,
-  AccountCircle,
-} from "@material-ui/icons";
+import { Fuel, Speed, Engines, Species } from "../../Icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,10 +68,10 @@ export default function EntityDetails({ entity }) {
         <Typography variant="subtitle1">{entity.type}</Typography>
       </Box>
       <div className={classes.fieldList}>
-        <Field icon={<LocalGasStation />} value={`${entity.fuel} gal.`} />
+        <Field icon={<Fuel />} value={`${entity.fuel} gal.`} />
         <Field icon={<Speed />} value={`${entity.speed} Km/h`} />
-        <Field icon={<Flare />} value={`${entity.engines}`} />
-        <Field icon={<AccountCircle />} value={`${entity.species}`} />
+        <Field icon={<Engines />} value={`${entity.engines}`} />
+        <Field icon={<Species />} value={`${entity.species}`} />
       </div>
       <Divider />
       <List>
