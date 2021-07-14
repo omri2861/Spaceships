@@ -37,6 +37,16 @@ app.post("/api/addEntity", (req, res) => {
     });
 });
 
+app.put("/api/element/:elementId", (req, res) => {
+  Entity.findByIdAndUpdate(req.params.elementId, req.body)
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      res.status(500);
+      res.send(error);
+      console.log(error);
+    });
+});
+
 app.delete("/api/deleteEntity/:elementId", (req, res) => {
   Entity.findByIdAndDelete(req.params.elementId)
     .then(res.sendStatus(200))
@@ -48,10 +58,14 @@ app.delete("/api/deleteEntity/:elementId", (req, res) => {
 
 app.get("/api/imageNames", (req, res) => {
   res.send(imageNames);
-})
+});
 
 mongoose
-  .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
   .then(() => console.log("Connected to MongoDB server..."));
 
 app.listen(port, () => {

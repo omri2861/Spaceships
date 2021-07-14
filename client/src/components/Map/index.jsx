@@ -40,6 +40,10 @@ export default function Map() {
     setShowEntityView(true);
   };
 
+  const handleElementDrag = (event, element) => {
+    axios.put(`/api/element/${element.id}`, element).catch(showError);
+  };
+
   const closeDrawer = () => setShowEntityView(false);
 
   const showContextMenu = (event, node) => {
@@ -64,6 +68,7 @@ export default function Map() {
           onElementClick={onElementClick}
           onNodeContextMenu={showContextMenu}
           onEdgeContextMenu={showContextMenu}
+          onNodeDragStop={handleElementDrag}
           elements={elements}
         />
         <EntityView
