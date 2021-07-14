@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import axios from "axios";
 import React from "react";
+import useSnackbar from "../../../Snackbar";
 
 const useStyles = makeStyles((theme) => ({
   selection: {
@@ -18,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ImageSelection({ value, setValue }) {
   const classes = useStyles();
 
+  const { showError } = useSnackbar;
+
   const [imageNames, setImageNames] = React.useState([]);
 
   React.useEffect(
@@ -25,8 +28,8 @@ export default function ImageSelection({ value, setValue }) {
       axios
         .get("/api/imageNames")
         .then((res) => setImageNames(res.data))
-        .catch(console.error),
-    [setImageNames]
+        .catch(showError),
+    []
   );
 
   const handleChange = (event) => setValue(event.target.value);

@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import NewEntityForm from "./NewEntityForm";
+import useSnackbar from "../../../Snackbar";
 
 const emptyElement = {
   data: {
@@ -28,6 +29,8 @@ const emptyElement = {
 export default function AddEntityDialog({ setElements }) {
   const [newElement, setNewElement] = React.useState(emptyElement);
 
+  const { showError } = useSnackbar();
+
   const history = useHistory();
 
   const handleClose = () => {
@@ -35,15 +38,15 @@ export default function AddEntityDialog({ setElements }) {
   };
 
   const addEntity = () =>
-  axios
-    .post("/api/addEntity", newElement)
-    .then((res) => {
-      let addedElement = res.data;
-      addedElement.id = addedElement._id;
-      setElements((prevElements) => [...prevElements, addedElement]);
-    })
-    .then(handleClose)
-    .catch(console.error);
+    axios
+      .post("/api/addEntity", newElement)
+      .then((res) => {
+        let addedElement = res.data;
+        addedElement.id = addedElement._id;
+        setElements((prevElements) => [...prevElements, addedElement]);
+      })
+      .then(handleClose)
+      .catch(showError);
 
   return (
     <Dialog
