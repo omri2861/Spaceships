@@ -7,19 +7,19 @@ const customNodeStyles = {
   width: "50px",
 };
 
-function CustomNode({ data }) {
+function CustomNode({ data: entity }) {
   return (
     <div style={customNodeStyles}>
       <Handle type="target" position="top" style={{ borderRadius: 0 }} />
       <Handle type="source" position="top" style={{ borderRadius: 0 }} />
       <img
         // TODO: Move to server
-        src={data.image}
+        src={entity.image}
         // TODO: Capitalize?
-        alt={data.image}
+        alt={entity.image}
         style={{ width: "100%", position: "relative" }}
       />
-      <p>{data.name}</p>
+      <p>{entity.name}</p>
     </div>
   );
 }

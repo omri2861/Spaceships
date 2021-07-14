@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@material-ui/core";
 import EntityPane from "./EntityPane";
-import EntityDrawer from "./EntityView";
+import EntityView from "./EntityView";
 import ContextMenu from "./ContextMenu";
 import DeleteEntityDialog from "./Dialogs/DeleteEntityDialog";
 import AddEntityDialog from "./Dialogs/AddEntityDialog";
@@ -66,8 +66,8 @@ export default function Map() {
           onEdgeContextMenu={showContextMenu}
           elements={elements}
         />
-        <EntityDrawer
-          entity={target}
+        <EntityView
+          element={target}
           open={showEntityView}
           onClose={closeDrawer}
         />

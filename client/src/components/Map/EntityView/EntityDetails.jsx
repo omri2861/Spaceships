@@ -63,24 +63,24 @@ export default function EntityDetails({ entity }) {
   return (
     <div className={classes.root}>
       <img
-        src={entity.data.image}
-        alt={entity.data.name}
+        src={entity.image}
+        alt={entity.name}
         className={classes.entityViewImage}
       />
       <Divider />
       <Box className={classes.header}>
-        <Typography variant="h4">{entity.data.name}</Typography>
+        <Typography variant="h4">{entity.name}</Typography>
         <Typography variant="subtitle1">{entity.type}</Typography>
       </Box>
       <div className={classes.fieldList}>
-        <Field icon={<LocalGasStation />} value={`${entity.data.fuel} gal.`} />
-        <Field icon={<Speed />} value={`${entity.data.speed} Km/h`} />
-        <Field icon={<Flare />} value={`${entity.data.engines}`} />
-        <Field icon={<AccountCircle />} value={`${entity.data.species}`} />
+        <Field icon={<LocalGasStation />} value={`${entity.fuel} gal.`} />
+        <Field icon={<Speed />} value={`${entity.speed} Km/h`} />
+        <Field icon={<Flare />} value={`${entity.engines}`} />
+        <Field icon={<AccountCircle />} value={`${entity.species}`} />
       </div>
       <Divider />
       <List>
-        {entity.data.functions.map((func) => (
+        {entity.functions.map((func) => (
           <ListItemLink>{func}</ListItemLink>
         ))}
       </List>
