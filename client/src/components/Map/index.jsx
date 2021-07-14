@@ -44,6 +44,18 @@ export default function Map() {
     axios.put(`/api/element/${element.id}`, element).catch(showError);
   };
 
+  const handleConnect = (newConnection) => {
+    console.log(newConnection);
+    axios
+      .post("/api/addEntity", newConnection)
+      .then((res) => {
+        let addedElement = res.data;
+        addedElement.id = addedElement._id;
+        setElements((prevElements) => [...prevElements, addedElement]);
+      })
+      .catch(showError);
+  };
+
   const closeDrawer = () => setShowEntityView(false);
 
   const showContextMenu = (event, node) => {
@@ -69,6 +81,7 @@ export default function Map() {
           onNodeContextMenu={showContextMenu}
           onEdgeContextMenu={showContextMenu}
           onNodeDragStop={handleElementDrag}
+          onConnect={handleConnect}
           elements={elements}
         />
         <EntityView
