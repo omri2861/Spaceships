@@ -24,6 +24,6 @@ function CustomNode({ data }) {
   );
 }
 
-var nodeTypes = {vessel: CustomNode, station: CustomNode, stop: CustomNode};
+var nodeTypes = {custom: CustomNode};
 
 export default nodeTypes;
