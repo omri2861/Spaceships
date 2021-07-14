@@ -36,7 +36,7 @@ function SnackbarProvider(props) {
     if (error === undefined || error === null) {
       message = errorPlaceHolder;
       error = "Trying to log null or undefined error";
-    } else if (error.message.length() < maxChars) {
+    } else if (error.message.length < maxChars) {
       message = error.message;
     } else {
       message = errorPlaceHolder;

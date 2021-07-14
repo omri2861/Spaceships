@@ -10,9 +10,11 @@ import {
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { removeElements } from "react-flow-renderer";
+import useSnackbar from "../../Snackbar";
 
 export default function DeleteEntityDialog({ target, setElements }) {
   const history = useHistory();
+  const { showError } = useSnackbar();
 
   const handleClose = () => {
     history.push("/"); // TODO: Go back, not home
@@ -29,7 +31,7 @@ export default function DeleteEntityDialog({ target, setElements }) {
         setElements((prevElements) => removeElements([target], prevElements))
       )
       .then(handleClose)
-      .catch(console.error);
+      .catch(showError);
   };
 
   if (target === null) {
