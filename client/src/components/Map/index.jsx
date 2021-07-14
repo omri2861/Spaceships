@@ -6,8 +6,11 @@ import ContextMenu from "./ContextMenu";
 import DeleteEntityDialog from "./Dialogs/DeleteEntityDialog";
 import AddEntityDialog from "./Dialogs/AddEntityDialog";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
+import axios from "axios";
+import useSnackbar from "../Snackbar";
 
 export default function Map() {
+  const { showError } = useSnackbar();
   const [elements, setElements] = React.useState([]);
 
   const [target, setTarget] = React.useState(null);
@@ -20,16 +23,16 @@ export default function Map() {
   });
 
   React.useEffect(() => {
-    fetch("/entities")
-      .then((response) => response.json())
-      .then((newElements) => {
-        newElements.forEach((ent) => {
+    axios
+      .get("/entities")
+      .then((res) => {
+        res.data.forEach((ent) => {
           ent.id = ent._id;
         });
-        setElements(newElements);
+        setElements(res.data);
       })
       // TODO: Handle error properly
-      .catch(console.log);
+      .catch(showError);
   }, []);
 
   const onElementClick = (event, element) => {
