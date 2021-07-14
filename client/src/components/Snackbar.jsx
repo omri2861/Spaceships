@@ -1,8 +1,8 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+import Button from "@material-ui/core/Button";
+import { Snackbar as MuiSnackbar } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
+import { makeStyles } from "@material-ui/core/styles";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -17,32 +17,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedSnackbars() {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+const SnackbarContext = React.createContext({
+  openSnackbar: (message, severity) => {},
+});
 
-  const handleClick = () => {
-    setOpen(true);
-  };
+function SnackbarProvider(props) {
+  const [snackbarState, setSnackbarState] = React.useState({
+    open: false,
+    message: "",
+    severity: "info",
+  });
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
-    setOpen(false);
+    setSnackbarState((prevState) => ({ ...prevState, open: false }));
   };
 
+  const openSnackbar = (message, severity) =>
+    setSnackbarState({ open: true, message, severity });
+
   return (
-    <div className={classes.root}>
-      <Button variant="outlined" onClick={handleClick}>
-        Open success snackbar
-      </Button>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+    <>
+      <SnackbarContext.Provider value={{ openSnackbar }}>
+        {props.children}
+      </SnackbarContext.Provider>
+      <MuiSnackbar
+        open={snackbarState.open}
+        autoHideDuration={5000}
+        onClose={handleClose}
+      >
         <Alert onClose={handleClose} severity="success">
           This is a success message!
         </Alert>
-      </Snackbar>
-    </div>
+      </MuiSnackbar>
+    </>
   );
 }
+
+const useSnackbar = () => React.useContext(SnackbarContext);
+
+export { SnackbarProvider, useSnackbar };
+export default useSnackbar;
