@@ -15,7 +15,7 @@ export default function Map() {
 
   const [target, setTarget] = React.useState(null);
 
-  const [showDrawer, setShowDrawer] = React.useState(false);
+  const [showEntityView, setShowEntityView] = React.useState(false);
 
   const [contextMenuState, setContextMenuState] = React.useState({
     mouseX: null,
@@ -37,10 +37,10 @@ export default function Map() {
 
   const onElementClick = (event, element) => {
     setTarget(element);
-    setShowDrawer(true);
+    setShowEntityView(true);
   };
 
-  const closeDrawer = () => setShowDrawer(false);
+  const closeDrawer = () => setShowEntityView(false);
 
   const showContextMenu = (event, node) => {
     event.preventDefault();
@@ -66,7 +66,11 @@ export default function Map() {
           onEdgeContextMenu={showContextMenu}
           elements={elements}
         />
-        <EntityDrawer entity={target} open={showDrawer} onClose={closeDrawer} />
+        <EntityDrawer
+          entity={target}
+          open={showEntityView}
+          onClose={closeDrawer}
+        />
         <ContextMenu
           {...contextMenuState}
           onClose={closeContextMenu}
