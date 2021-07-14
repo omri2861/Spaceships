@@ -21,9 +21,10 @@ const emptyElement = {
     fuel: "",
     species: "",
     speed: "",
+    type: "vessel"
   },
   position: { x: 200, y: 250 },
-  type: "vessel",
+  type: "custom",
 };
 
 export default function AddEntityDialog({ setElements }) {

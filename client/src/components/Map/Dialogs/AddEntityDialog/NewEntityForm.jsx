@@ -31,18 +31,10 @@ export default function NewEntityForm({ newElement, setNewElement }) {
   const classes = useStyles();
 
   const onChange = (event) => {
-    // TODO: Change this patch:
-    if (event.target.id === "type") {
-      setNewElement((prevElement) => ({
-        ...prevElement,
-        type: event.target.value,
-      }));
-    } else {
-      setNewElement((prevElement) => ({
-        ...prevElement,
-        data: { ...prevElement.data, [event.target.id]: event.target.value },
-      }));
-    }
+    setNewElement((prevElement) => ({
+      ...prevElement,
+      data: { ...prevElement.data, [event.target.id]: event.target.value },
+    }));
   };
 
   const setImage = (newImageName) =>
