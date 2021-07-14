@@ -1,7 +1,7 @@
 import {
   Divider,
   Grid,
-  TextField,
+  TextField as MuiTextField,
   InputLabel,
   Select,
   FormControl,
@@ -9,6 +9,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import ImageSelection from "./ImageSelection";
+import { Fuel, Speed, Engines, Species } from "../../../Icons";
 
 const spacing = 2;
 
@@ -21,9 +22,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const GridItemTextField = (props) => (
+const TextField = (props) => (
   <Grid item>
-    <TextField {...props} />
+    <MuiTextField {...props} />
+  </Grid>
+);
+
+const IconTextField = (props) => (
+  <Grid item>
+    <Grid container spacing={1} alignItems="flex-end">
+      <Grid item>{props.icon}</Grid>
+      <Grid item>
+        <TextField {...props} />
+      </Grid>
+    </Grid>
   </Grid>
 );
 
@@ -46,7 +58,7 @@ export default function NewEntityForm({ newElement, setNewElement }) {
   return (
     <>
       <Grid container spacing={spacing}>
-        <GridItemTextField
+        <TextField
           autoFocus
           margin="dense"
           id="name"
@@ -71,7 +83,8 @@ export default function NewEntityForm({ newElement, setNewElement }) {
       </Grid>
       <Divider className={classes.divider} />
       <Grid container spacing={spacing}>
-        <GridItemTextField
+        <IconTextField
+          icon={<Fuel />}
           autoFocus
           margin="dense"
           id="fuel"
@@ -80,7 +93,8 @@ export default function NewEntityForm({ newElement, setNewElement }) {
           type="number"
           onChange={onChange}
         />
-        <GridItemTextField
+        <IconTextField
+          icon={<Speed />}
           autoFocus
           margin="dense"
           id="speed"
@@ -89,7 +103,8 @@ export default function NewEntityForm({ newElement, setNewElement }) {
           type="number"
           onChange={onChange}
         />
-        <GridItemTextField
+        <IconTextField
+          icon={<Engines />}
           autoFocus
           margin="dense"
           id="engines"
@@ -98,7 +113,8 @@ export default function NewEntityForm({ newElement, setNewElement }) {
           type="number"
           onChange={onChange}
         />
-        <GridItemTextField
+        <IconTextField
+          icon={<Species />}
           autoFocus
           margin="dense"
           id="species"
