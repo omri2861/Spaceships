@@ -25,12 +25,7 @@ export default function Map() {
   React.useEffect(() => {
     axios
       .get("/entities")
-      .then((res) => {
-        res.data.forEach((ent) => {
-          ent.id = ent._id;
-        });
-        setElements(res.data);
-      })
+      .then((res) => setElements(res.data))
       // TODO: Handle error properly
       .catch(showError);
   }, []);
