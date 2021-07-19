@@ -1,7 +1,10 @@
+import os
 
-from flask import Flask
+from flask import Flask, Response
 import pymongo
 from bson.json_util import dumps
+
+ASSETS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "assets")
 
 app = Flask(__name__, )
 
@@ -34,8 +37,20 @@ def fix_entries(cursor):
         del entry["__v"]
         yield entry
 
+
 @app.route("/entities")
 def get_entities():
     collection = myclient["Spaceships"]["entities"]
     entities = collection.find()
     return dumps(fix_entries(entities))
+
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<image>')
+def get_asset(image):  # pragma: no cover
+    complete_path = os.path.join(ASSETS_DIR, image)
+    if os.path.isfile(complete_path):
+        with open(complete_path, 'rb') as src:
+            return src.read()
+    else:
+        return Response("Not Found", status=404)
