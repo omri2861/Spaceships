@@ -3,6 +3,8 @@ import os
 from flask import Flask, Response
 import pymongo
 from bson.json_util import dumps
+import json
+from bson.objectid import ObjectId
 
 ASSETS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "assets")
 
@@ -73,7 +75,18 @@ def delete_entity(element_id):
     """
     Delete an entity
     """
-    pass
+    collection = myclient["Spaceships"]["entities"]
+    res = collection.delete_one({"_id": ObjectId(element_id)})
+    deleted_count = res.deleted_count
+
+    if deleted_count != 1:
+        # TODO: Implement printing the full response in the frontend using axios
+        #  instead of printing in backend
+        error_message = f"Deleted {deleted_count} entries"
+        print(error_message)
+        return Response(json.dumps({"message": f"Deleted {deleted_count} entries"}), status=500)
+    else:
+        return Response("", status=200)
 
 
 app.route("/api/element/<element_id>", methods=["PUT"])
