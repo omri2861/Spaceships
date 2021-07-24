@@ -42,14 +42,14 @@ def fix_entries(cursor):
         yield entry
 
 
-@app.route("/entities")
+@app.route("/entities", methods=["GET"])
 def get_entities():
     collection = myclient["Spaceships"]["entities"]
     entities = collection.find()
     return dumps(fix_entries(entities))
 
 
-@app.route('/', defaults={'path': ''})
+@app.route('/', methods=["GET"])
 @app.route('/<image>')
 def get_asset(image):  # pragma: no cover
     complete_path = os.path.join(ASSETS_DIR, image)
@@ -58,3 +58,37 @@ def get_asset(image):  # pragma: no cover
             return src.read()
     else:
         return Response("Not Found", status=404)
+
+
+@app.route("/api/addEntity", methods=["POST"])
+def add_entity():
+    """
+    Add a new entity to the database
+    """
+    pass
+
+
+@app.route("/api/deleteEntity/<element_id>", methods=["DELETE"])
+def delete_entity(element_id):
+    """
+    Delete an entity
+    """
+    pass
+
+
+app.route("/api/element/<element_id>", methods=["PUT"])
+
+
+def update_element(element_id):
+    """
+    Update an existing element's data.
+    """
+    pass
+
+
+@app.route("/api/imageNames", methods=["GET"])
+def get_image_names():
+    """
+    Return a list of the possible images for new entities.
+    """
+    pass
