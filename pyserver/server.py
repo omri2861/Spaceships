@@ -33,6 +33,10 @@ def fix_entries(cursor):
     """
     for entry in cursor:
         entry["id"] = str(entry["_id"])
+        if 'source' in entry:
+            entry["source"] = str(entry["source"])
+        if 'target' in entry:
+            entry["target"] = str(entry["target"])
         del entry["_id"]
         del entry["__v"]
         yield entry
