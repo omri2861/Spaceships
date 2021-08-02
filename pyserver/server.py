@@ -49,7 +49,7 @@ def fix_entries(cursor):
         yield entry
 
 
-@app.route("/entities", methods=["GET"])
+@app.route("/api/elements", methods=["GET"])
 def get_entities():
     entities = collection.find()
     return dumps(fix_entries(entities))

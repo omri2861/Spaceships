@@ -24,7 +24,7 @@ export default function Map() {
 
   React.useEffect(() => {
     axios
-      .get("/entities")
+      .get("/api/elements")
       .then((res) => setElements(res.data))
       // TODO: Handle error properly
       .catch(showError);
