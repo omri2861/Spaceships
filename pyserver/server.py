@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, Response
+from flask import Flask, Response, request
 import pymongo
 from bson.json_util import dumps
 import json
@@ -11,8 +11,7 @@ ASSETS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "assets")
 app = Flask(__name__, )
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-
-print(myclient["Spaceships"])
+collection = myclient["Spaceships"]["entities"]
 
 
 @app.route("/")
@@ -40,13 +39,13 @@ def fix_entries(cursor):
         if 'target' in entry:
             entry["target"] = str(entry["target"])
         del entry["_id"]
-        del entry["__v"]
+        if "__v" in entry:
+            del entry["__v"]
         yield entry
 
 
 @app.route("/entities", methods=["GET"])
 def get_entities():
-    collection = myclient["Spaceships"]["entities"]
     entities = collection.find()
     return dumps(fix_entries(entities))
 
@@ -67,7 +66,13 @@ def add_entity():
     """
     Add a new entity to the database
     """
-    pass
+    new_entity = json.loads(request.data)
+    # TODO: Validate schema
+    res = collection.insert_one(new_entity)
+    if not res.acknowledged:
+        # TODO: Return error
+        pass
+    return dumps(collection.find_one(res.inserted_id))
 
 
 @app.route("/api/deleteEntity/<element_id>", methods=["DELETE"])
@@ -75,7 +80,6 @@ def delete_entity(element_id):
     """
     Delete an entity
     """
-    collection = myclient["Spaceships"]["entities"]
     res = collection.delete_one({"_id": ObjectId(element_id)})
     deleted_count = res.deleted_count
 
