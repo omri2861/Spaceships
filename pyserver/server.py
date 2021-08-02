@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, Response, request
 import pymongo
-from bson.json_util import dumps
+from bson.json_util import default, dumps
 import json
 from bson.objectid import ObjectId
 from pymongo.message import update
@@ -13,6 +13,10 @@ app = Flask(__name__, )
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 collection = myclient["Spaceships"]["entities"]
+
+# TODO: Create a resource for elements and element
+# TODO: Fix terminology again
+# TODO: Remove redundant methods
 
 
 @app.route("/")
@@ -62,7 +66,7 @@ def get_asset(image):  # pragma: no cover
         return Response("Not Found", status=404)
 
 
-@app.route("/api/addEntity", methods=["POST"])
+@app.route("/api/elements", methods=["POST"])
 def add_entity():
     """
     Add a new entity to the database
@@ -76,7 +80,7 @@ def add_entity():
     return dumps(collection.find_one(res.inserted_id))
 
 
-@app.route("/api/deleteEntity/<element_id>", methods=["DELETE"])
+@app.route("/api/element/<element_id>", methods=["DELETE"])
 def delete_entity(element_id):
     """
     Delete an entity
@@ -99,6 +103,7 @@ def update_element(element_id):
     """
     Update an existing element's data.
     """
+    print(f'ELEMENT: {element_id}')
     updated_entity = json.loads(request.data)
     del updated_entity["id"]
     res = collection.replace_one({"_id": ObjectId(element_id)}, updated_entity)

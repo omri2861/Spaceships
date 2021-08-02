@@ -26,7 +26,7 @@ export default function DeleteEntityDialog({ target, setElements }) {
       return;
     }
     axios
-      .delete(`/api/deleteEntity/${target.id}`)
+      .delete(`/api/element/${target.id}`)
       .then(
         setElements((prevElements) => removeElements([target], prevElements))
       )

@@ -25,7 +25,7 @@ app.get("/entities", (req, res) => {
   Entity.find().then((entities) => res.send(entities));
 });
 
-app.post("/api/addEntity", (req, res) => {
+app.post("/api/element", (req, res) => {
   console.log(req.body);
   newEntity = new Entity(req.body);
   newEntity
@@ -47,7 +47,7 @@ app.put("/api/element/:elementId", (req, res) => {
     });
 });
 
-app.delete("/api/deleteEntity/:elementId", (req, res) => {
+app.delete("/api/element/:elementId", (req, res) => {
   Entity.findByIdAndDelete(req.params.elementId)
     .then(res.sendStatus(200))
     .catch((err) => {

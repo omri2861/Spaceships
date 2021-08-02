@@ -40,7 +40,7 @@ export default function AddEntityDialog({ setElements }) {
 
   const addEntity = () =>
     axios
-      .post("/api/addEntity", newElement)
+      .post("/api/elements", newElement)
       .then((res) => {
         let addedElement = res.data;
         addedElement.id = addedElement._id;
