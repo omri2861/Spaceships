@@ -5,6 +5,7 @@ import pymongo
 from bson.json_util import dumps
 import json
 from bson.objectid import ObjectId
+from pymongo.message import update
 
 ASSETS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "assets")
 
@@ -93,12 +94,18 @@ def delete_entity(element_id):
         return Response("", status=200)
 
 
-app.route("/api/element/<element_id>", methods=["PUT"])
+@app.route("/api/element/<element_id>", methods=["PUT"])
 def update_element(element_id):
     """
     Update an existing element's data.
     """
-    pass
+    updated_entity = json.loads(request.data)
+    del updated_entity["id"]
+    res = collection.replace_one({"_id": ObjectId(element_id)}, updated_entity)
+    if (not res.acknowledged) or res.modified_count != 1:
+        # TODO: Return error
+        return ""
+    return ""
 
 
 @app.route("/api/imageNames", methods=["GET"])
