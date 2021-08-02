@@ -90,8 +90,6 @@ def delete_entity(element_id):
 
 
 app.route("/api/element/<element_id>", methods=["PUT"])
-
-
 def update_element(element_id):
     """
     Update an existing element's data.
@@ -104,4 +102,4 @@ def get_image_names():
     """
     Return a list of the possible images for new entities.
     """
-    pass
+    return dumps(os.listdir(ASSETS_DIR))
