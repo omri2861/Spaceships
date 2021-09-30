@@ -76,7 +76,7 @@ export default function EntityDetails({ entity }) {
       <Divider />
       <List>
         {entity.functions.map((func) => (
-          <ListItemLink>{func}</ListItemLink>
+          <ListItemLink key={func}>{func}</ListItemLink>
         ))}
       </List>
     </div>

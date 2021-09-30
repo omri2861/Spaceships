@@ -39,7 +39,7 @@ export default function ImageSelection({ value, setValue }) {
       <InputLabel>Image</InputLabel>
       <Select id="image" value={value} onChange={handleChange}>
         {imageNames.map((image) => (
-          <MenuItem value={image}>{image}</MenuItem>
+          <MenuItem key={image} value={image}>{image}</MenuItem>
         ))}
       </Select>
     </FormControl>
