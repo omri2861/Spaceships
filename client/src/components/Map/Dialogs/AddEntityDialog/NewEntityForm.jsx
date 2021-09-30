@@ -43,6 +43,10 @@ export default function NewEntityForm({ newElement, setNewElement }) {
   const classes = useStyles();
 
   const onChange = (event) => {
+    console.log(
+      `Setting element.data.${event.target.id} to ${event.target.value}`
+    );
+    console.log(event.target);
     setNewElement((prevElement) => ({
       ...prevElement,
       data: { ...prevElement.data, [event.target.id]: event.target.value },
@@ -54,6 +58,16 @@ export default function NewEntityForm({ newElement, setNewElement }) {
       ...prevElement,
       data: { ...prevElement.data, image: newImageName },
     }));
+
+  const setElementType = (event) => {
+    // NOTE: For some reason, the MUI selection component generates the event on
+    // it's own when clicked. It's not a classic DOM event, so it doesn't have
+    // the 'id' property and must be handled differently.
+    setNewElement((prevElement) => ({
+      ...prevElement,
+      data: { ...prevElement.data, type: event.target.value },
+    }));
+  };
 
   return (
     <>
@@ -73,7 +87,11 @@ export default function NewEntityForm({ newElement, setNewElement }) {
         <Grid item>
           <FormControl className={classes.selection}>
             <InputLabel>Type</InputLabel>
-            <Select id="type" value={newElement.type}>
+            <Select
+              id="type"
+              value={newElement.data.type}
+              onChange={setElementType}
+            >
               <MenuItem value={"vessel"}>Vessel</MenuItem>
               <MenuItem value={"station"}>Station</MenuItem>
               <MenuItem value={"stop"}>Stop</MenuItem>
