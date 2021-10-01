@@ -13,7 +13,8 @@ DB_NAME = os.environ.get("SPACESHIPS_DB", "Spaceships")
 app = Flask(__name__, )
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-collection = myclient[DB_NAME]["entities"]
+entities = myclient[DB_NAME]["entities"]
+functions = myclient[DB_NAME]["Functions"]
 
 # TODO: Create a resource for elements and element
 # TODO: Fix terminology again
@@ -30,30 +31,38 @@ def hello_to(name):
     return f"<p>Hello, {name}!</p>"
 
 
+def fix_entry(entry):
+    """
+    Due to how pymongo works, and to the difference between bson and json format, if you simply dump
+    a database entry (e.g. a pymongo.find result), the '_id' field is poorly formatted (It is
+    formatted as an object rather than a string). This function fix this format for the _id field,
+    and other fields which contains object ids, if needed.
+    :param entry: A single database entry (assumed dict or a child of dict).
+    :return: The new, properly formatted entry
+    """
+    entry["id"] = str(entry["_id"])
+    if 'source' in entry:
+        entry["source"] = str(entry["source"])
+    if 'target' in entry:
+        entry["target"] = str(entry["target"])
+    del entry["_id"]
+    if "__v" in entry:
+        del entry["__v"]
+    return entry
+
 def fix_entries(cursor):
     """
-    This function changes the database entries, so they can be sent to the client
-    properly formatted. It fixes the id property's type (from bson dict to string)
-    and removes redundant '__v' property.
-    :param cursor: An iterable of db entries that should be fixed
-    :return: A generator of the fixed entries
+    Runs the fix_entry function on a pymongo cursor (search result). Or to put it simply, runs it
+    as a generator.
     """
     for entry in cursor:
-        entry["id"] = str(entry["_id"])
-        if 'source' in entry:
-            entry["source"] = str(entry["source"])
-        if 'target' in entry:
-            entry["target"] = str(entry["target"])
-        del entry["_id"]
-        if "__v" in entry:
-            del entry["__v"]
-        yield entry
+        yield fix_entry(entry)
 
 
 @app.route("/api/elements", methods=["GET"])
 def get_entities():
-    entities = collection.find()
-    return dumps(fix_entries(entities))
+    elements = entities.find()
+    return dumps(fix_entries(elements))
 
 
 @app.route('/', methods=["GET"])
@@ -74,11 +83,11 @@ def add_entity():
     """
     new_entity = json.loads(request.data)
     # TODO: Validate schema
-    res = collection.insert_one(new_entity)
+    res = entities.insert_one(new_entity)
     if not res.acknowledged:
         # TODO: Return error
         pass
-    return dumps(collection.find_one(res.inserted_id))
+    return dumps(entities.find_one(res.inserted_id))
 
 
 @app.route("/api/element/<element_id>", methods=["DELETE"])
@@ -86,7 +95,7 @@ def delete_entity(element_id):
     """
     Delete an entity
     """
-    res = collection.delete_one({"_id": ObjectId(element_id)})
+    res = entities.delete_one({"_id": ObjectId(element_id)})
     deleted_count = res.deleted_count
 
     if deleted_count != 1:
@@ -107,7 +116,7 @@ def update_element(element_id):
     print(f'ELEMENT: {element_id}')
     updated_entity = json.loads(request.data)
     del updated_entity["id"]
-    res = collection.replace_one({"_id": ObjectId(element_id)}, updated_entity)
+    res = entities.replace_one({"_id": ObjectId(element_id)}, updated_entity)
     if (not res.acknowledged) or res.modified_count != 1:
         # TODO: Return error
         return ""
@@ -120,3 +129,19 @@ def get_image_names():
     Return a list of the possible images for new entities.
     """
     return dumps(os.listdir(ASSETS_DIR))
+
+@app.route("/api/function/<function_id>", methods=["GET"])
+def get_function(function_id):
+    """
+    Query function data from the database
+    """
+    # TODO: Maybe perform the join when pulling entity?
+    # TODO: Log properly
+    # TODO: Maybe change the functions in entities to ObjectIDs, not strings?
+    print(f"Looking for function: {function_id}")
+    result = functions.find_one(ObjectId(function_id))
+
+    if result is None:
+        return Response("Not Found", status=404)
+    else:
+        return dumps(fix_entry(result))

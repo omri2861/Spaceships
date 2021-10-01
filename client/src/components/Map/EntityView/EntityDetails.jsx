@@ -7,6 +7,7 @@ import {
   ListItem,
 } from "@material-ui/core";
 import { Fuel, Speed, Engines, Species } from "../../Icons";
+import EntityFunction from "./Function";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,10 +49,6 @@ function Field({ icon, value }) {
   );
 }
 
-function ListItemLink(props) {
-  return <ListItem button component="a" {...props} />;
-}
-
 export default function EntityDetails({ entity }) {
   const classes = useStyles();
 
@@ -76,7 +73,7 @@ export default function EntityDetails({ entity }) {
       <Divider />
       <List>
         {entity.functions.map((func) => (
-          <ListItemLink key={func}>{func}</ListItemLink>
+          <EntityFunction key={func} functionId={func} />
         ))}
       </List>
     </div>
