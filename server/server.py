@@ -8,11 +8,12 @@ from bson.objectid import ObjectId
 from pymongo.message import update
 
 ASSETS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "assets")
+DB_NAME = os.environ.get("SPACESHIPS_DB", "Spaceships")
 
 app = Flask(__name__, )
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-collection = myclient["Spaceships"]["entities"]
+collection = myclient[DB_NAME]["entities"]
 
 # TODO: Create a resource for elements and element
 # TODO: Fix terminology again
