@@ -39,6 +39,7 @@ export default function FunctionDialog() {
     >
       <DialogTitle>{func.label}</DialogTitle>
       <DialogContent>
+        {/* TODO: Add description for each function */}
         <DialogContentText id="function-dialog-description">
           {JSON.stringify(func.args)}
         </DialogContentText>
