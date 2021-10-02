@@ -8,7 +8,9 @@ from spaceships.context import init_db, get_functions
 from spaceships.utils import fix_entry
 from spaceships.blueprints.elements import elements
 
-ASSETS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../assets")
+ASSETS_DIR = os.path.join(os.path.abspath(
+    os.path.dirname(__file__)), "../assets")
+
 
 def create_app():
     app = Flask(__name__, )
@@ -18,11 +20,10 @@ def create_app():
 
     return app
 
+
 app = create_app()
 app.register_blueprint(elements)
 
-# TODO: Create a resource for elements and element
-# TODO: Fix terminology again
 
 @app.route('/', methods=["GET"])
 @app.route('/<image>')
@@ -33,6 +34,7 @@ def get_asset(image):  # pragma: no cover
             return src.read()
     else:
         return Response("Not Found", status=404)
+
 
 @app.route("/api/imageNames", methods=["GET"])
 def get_image_names():

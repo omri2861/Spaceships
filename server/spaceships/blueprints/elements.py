@@ -15,7 +15,7 @@ def get_elements():
     return dumps(fix_entries(elements))
 
 @elements.route("/api/elements", methods=["POST"])
-def add_entity():
+def add_element():
     """
     Add a new entity to the database
     """
@@ -29,7 +29,7 @@ def add_entity():
 
 
 @elements.route("/api/element/<element_id>", methods=["DELETE"])
-def delete_entity(element_id):
+def delete_element(element_id):
     """
     Delete an entity
     """
