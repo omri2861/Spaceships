@@ -9,12 +9,12 @@ from spaceships.utils import fix_entries
 
 elements = Blueprint("elements", __name__)
 
-@elements.route("/api/elements", methods=["GET"])
+@elements.route("/elements", methods=["GET"])
 def get_elements():
     elements = get_entities().find()
     return dumps(fix_entries(elements))
 
-@elements.route("/api/elements", methods=["POST"])
+@elements.route("/elements", methods=["POST"])
 def add_element():
     """
     Add a new entity to the database
@@ -28,7 +28,7 @@ def add_element():
     return dumps(get_entities().find_one(res.inserted_id))
 
 
-@elements.route("/api/element/<element_id>", methods=["DELETE"])
+@elements.route("/element/<element_id>", methods=["DELETE"])
 def delete_element(element_id):
     """
     Delete an entity
@@ -46,7 +46,7 @@ def delete_element(element_id):
         return Response("", status=200)
 
 
-@elements.route("/api/element/<element_id>", methods=["PUT"])
+@elements.route("/element/<element_id>", methods=["PUT"])
 def update_element(element_id):
     """
     Update an existing element's data.

@@ -22,7 +22,9 @@ def create_app():
 
 
 app = create_app()
-app.register_blueprint(elements)
+
+# TODO: Unite /element and /elements routes
+app.register_blueprint(elements, url_prefix="/api")
 
 
 @app.route('/', methods=["GET"])
