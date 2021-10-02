@@ -7,7 +7,7 @@ import json
 from bson.objectid import ObjectId
 from pymongo.message import update
 
-ASSETS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "assets")
+ASSETS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../assets")
 DB_NAME = os.environ.get("SPACESHIPS_DB", "Spaceships")
 
 app = Flask(__name__, )
