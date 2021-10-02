@@ -1,12 +1,12 @@
 import os
 
-from flask import Flask, Response, request, g
-from bson.json_util import default, dumps
-import json
+from flask import Flask, Response
+from bson.json_util import dumps
 from bson.objectid import ObjectId
 
-from spaceships.context import init_db, get_entities, get_functions
-from spaceships.utils import fix_entry, fix_entries
+from spaceships.context import init_db, get_functions
+from spaceships.utils import fix_entry
+from spaceships.blueprints.elements import elements
 
 ASSETS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../assets")
 
@@ -19,6 +19,7 @@ def create_app():
     return app
 
 app = create_app()
+app.register_blueprint(elements)
 
 # TODO: Create a resource for elements and element
 # TODO: Fix terminology again
@@ -34,12 +35,6 @@ def hello_to(name):
     return f"<p>Hello, {name}!</p>"
 
 
-@app.route("/api/elements", methods=["GET"])
-def get_elements():
-    elements = get_entities().find()
-    return dumps(fix_entries(elements))
-
-
 @app.route('/', methods=["GET"])
 @app.route('/<image>')
 def get_asset(image):  # pragma: no cover
@@ -49,54 +44,6 @@ def get_asset(image):  # pragma: no cover
             return src.read()
     else:
         return Response("Not Found", status=404)
-
-
-@app.route("/api/elements", methods=["POST"])
-def add_entity():
-    """
-    Add a new entity to the database
-    """
-    new_entity = json.loads(request.data)
-    # TODO: Validate schema
-    res = get_entities().insert_one(new_entity)
-    if not res.acknowledged:
-        # TODO: Return error
-        pass
-    return dumps(get_entities().find_one(res.inserted_id))
-
-
-@app.route("/api/element/<element_id>", methods=["DELETE"])
-def delete_entity(element_id):
-    """
-    Delete an entity
-    """
-    res = get_entities().delete_one({"_id": ObjectId(element_id)})
-    deleted_count = res.deleted_count
-
-    if deleted_count != 1:
-        # TODO: Implement printing the full response in the frontend using axios
-        #  instead of printing in backend
-        error_message = f"Deleted {deleted_count} entries"
-        print(error_message)
-        return Response(json.dumps({"message": f"Deleted {deleted_count} entries"}), status=500)
-    else:
-        return Response("", status=200)
-
-
-@app.route("/api/element/<element_id>", methods=["PUT"])
-def update_element(element_id):
-    """
-    Update an existing element's data.
-    """
-    print(f'ELEMENT: {element_id}')
-    updated_entity = json.loads(request.data)
-    del updated_entity["id"]
-    res = get_entities().replace_one({"_id": ObjectId(element_id)}, updated_entity)
-    if (not res.acknowledged) or res.modified_count != 1:
-        # TODO: Return error
-        return ""
-    return ""
-
 
 @app.route("/api/imageNames", methods=["GET"])
 def get_image_names():
