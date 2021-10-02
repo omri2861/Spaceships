@@ -23,17 +23,6 @@ app.register_blueprint(elements)
 
 # TODO: Create a resource for elements and element
 # TODO: Fix terminology again
-# TODO: Remove redundant methods
-
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-
-
-@app.route("/hello/<name>")
-def hello_to(name):
-    return f"<p>Hello, {name}!</p>"
-
 
 @app.route('/', methods=["GET"])
 @app.route('/<image>')
