@@ -24,4 +24,4 @@ def get_functions():
     if 'db' not in g:
         g.db = pymongo.MongoClient("mongodb://localhost:27017/")
 
-    return g.db[DB_NAME]["Functions"]
+    return g.db[DB_NAME]["functions"]
