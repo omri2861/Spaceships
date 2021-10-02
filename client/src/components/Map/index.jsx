@@ -8,6 +8,7 @@ import AddEntityDialog from "./Dialogs/AddEntityDialog";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
 import useSnackbar from "../Snackbar";
+import FunctionDialog from "./Functions/FunctionDialog";
 
 export default function Map() {
   const { showError } = useSnackbar();
@@ -79,11 +80,15 @@ export default function Map() {
         />
 
         <Switch>
+          {/* TODO: Maybe delete using funcId as url param? */}
           <Route path="/deleteEntity">
             <DeleteEntityDialog target={target} setElements={setElements} />
           </Route>
           <Route path="/addEntity">
             <AddEntityDialog setElements={setElements} />
+          </Route>
+          <Route path="/run/:funcId">
+            <FunctionDialog />
           </Route>
         </Switch>
       </Router>

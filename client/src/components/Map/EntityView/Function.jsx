@@ -2,6 +2,7 @@ import React from "react";
 import { ListItem } from "@material-ui/core";
 import axios from "axios";
 import useSnackbar from "../../Snackbar";
+import { useHistory } from "react-router-dom";
 
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
@@ -11,7 +12,10 @@ export default function EntityFunction({ functionId }) {
   const [funcDef, setFuncDef] = React.useState({ label: "" });
 
   const { showError } = useSnackbar();
+  const history = useHistory();
 
+  // TODO: Get functions name and id as aggregate pipline instead of making the
+  // whole round-trip twice
   React.useEffect(() => {
     axios
       .get(`/api/function/${functionId}`)
@@ -19,5 +23,9 @@ export default function EntityFunction({ functionId }) {
       .catch(showError);
   }, [functionId]);
 
-  return <ListItemLink>{funcDef.label}</ListItemLink>;
+  return (
+    <ListItemLink onClick={() => history.push(`/run/${functionId}`)}>
+      {funcDef.label}
+    </ListItemLink>
+  );
 }
