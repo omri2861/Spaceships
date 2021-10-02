@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, Response, request
+from flask import Flask, Response, request, g
 import pymongo
 from bson.json_util import default, dumps
 import json
@@ -12,13 +12,23 @@ DB_NAME = os.environ.get("SPACESHIPS_DB", "Spaceships")
 
 app = Flask(__name__, )
 
-myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-entities = myclient[DB_NAME]["entities"]
-functions = myclient[DB_NAME]["Functions"]
-
 # TODO: Create a resource for elements and element
 # TODO: Fix terminology again
 # TODO: Remove redundant methods
+
+
+def get_entities():
+    if 'db' not in g:
+        g.db = pymongo.MongoClient("mongodb://localhost:27017/")
+
+    return g.db[DB_NAME]["entities"]
+
+
+def get_functions():
+    if 'db' not in g:
+        g.db = pymongo.MongoClient("mongodb://localhost:27017/")
+
+    return g.db[DB_NAME]["Functions"]
 
 
 @app.route("/")
@@ -50,6 +60,7 @@ def fix_entry(entry):
         del entry["__v"]
     return entry
 
+
 def fix_entries(cursor):
     """
     Runs the fix_entry function on a pymongo cursor (search result). Or to put it simply, runs it
@@ -60,8 +71,8 @@ def fix_entries(cursor):
 
 
 @app.route("/api/elements", methods=["GET"])
-def get_entities():
-    elements = entities.find()
+def get_elements():
+    elements = get_entities().find()
     return dumps(fix_entries(elements))
 
 
@@ -83,11 +94,11 @@ def add_entity():
     """
     new_entity = json.loads(request.data)
     # TODO: Validate schema
-    res = entities.insert_one(new_entity)
+    res = get_entities().insert_one(new_entity)
     if not res.acknowledged:
         # TODO: Return error
         pass
-    return dumps(entities.find_one(res.inserted_id))
+    return dumps(get_entities().find_one(res.inserted_id))
 
 
 @app.route("/api/element/<element_id>", methods=["DELETE"])
@@ -95,7 +106,7 @@ def delete_entity(element_id):
     """
     Delete an entity
     """
-    res = entities.delete_one({"_id": ObjectId(element_id)})
+    res = get_entities().delete_one({"_id": ObjectId(element_id)})
     deleted_count = res.deleted_count
 
     if deleted_count != 1:
@@ -116,7 +127,7 @@ def update_element(element_id):
     print(f'ELEMENT: {element_id}')
     updated_entity = json.loads(request.data)
     del updated_entity["id"]
-    res = entities.replace_one({"_id": ObjectId(element_id)}, updated_entity)
+    res = get_entities().replace_one({"_id": ObjectId(element_id)}, updated_entity)
     if (not res.acknowledged) or res.modified_count != 1:
         # TODO: Return error
         return ""
@@ -130,6 +141,7 @@ def get_image_names():
     """
     return dumps(os.listdir(ASSETS_DIR))
 
+
 @app.route("/api/function/<function_id>", methods=["GET"])
 def get_function(function_id):
     """
@@ -139,7 +151,7 @@ def get_function(function_id):
     # TODO: Log properly
     # TODO: Maybe change the functions in entities to ObjectIDs, not strings?
     print(f"Looking for function: {function_id}")
-    result = functions.find_one(ObjectId(function_id))
+    result = g.functions.find_one(ObjectId(function_id))
 
     if result is None:
         return Response("Not Found", status=404)
