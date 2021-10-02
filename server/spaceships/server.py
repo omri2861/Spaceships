@@ -4,9 +4,9 @@ from flask import Flask, Response
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 
-from spaceships.context import init_db, get_functions
-from spaceships.utils import fix_entry
+from spaceships.context import init_db
 from spaceships.blueprints.elements import elements
+from spaceships.blueprints.functions import functions
 
 ASSETS_DIR = os.path.join(os.path.abspath(
     os.path.dirname(__file__)), "../assets")
@@ -25,6 +25,7 @@ app = create_app()
 
 # TODO: Unite /element and /elements routes
 app.register_blueprint(elements, url_prefix="/api")
+app.register_blueprint(functions, url_prefix="/api/function")
 
 
 @app.route('/', methods=["GET"])
@@ -44,20 +45,3 @@ def get_image_names():
     Return a list of the possible images for new entities.
     """
     return dumps(os.listdir(ASSETS_DIR))
-
-
-@app.route("/api/function/<function_id>", methods=["GET"])
-def get_function(function_id):
-    """
-    Query function data from the database
-    """
-    # TODO: Maybe perform the join when pulling entity?
-    # TODO: Log properly
-    # TODO: Maybe change the functions in entities to ObjectIDs, not strings?
-    print(f"Looking for function: {function_id}")
-    result = get_functions().find_one(ObjectId(function_id))
-
-    if result is None:
-        return Response("Not Found", status=404)
-    else:
-        return dumps(fix_entry(result))
