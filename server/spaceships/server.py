@@ -1,43 +1,27 @@
 import os
 
 from flask import Flask, Response, request, g
-import pymongo
 from bson.json_util import default, dumps
 import json
 from bson.objectid import ObjectId
-from pymongo.message import update
+
+from spaceships.context import init_db, get_entities, get_functions
 
 ASSETS_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../assets")
-DB_NAME = os.environ.get("SPACESHIPS_DB", "Spaceships")
 
-app = Flask(__name__, )
+def create_app():
+    app = Flask(__name__, )
+
+    with app.app_context():
+        init_db()
+
+    return app
+
+app = create_app()
 
 # TODO: Create a resource for elements and element
 # TODO: Fix terminology again
 # TODO: Remove redundant methods
-
-
-def get_entities():
-    if 'db' not in g:
-        g.db = pymongo.MongoClient("mongodb://localhost:27017/")
-
-    return g.db[DB_NAME]["entities"]
-
-
-def get_functions():
-    if 'db' not in g:
-        g.db = pymongo.MongoClient("mongodb://localhost:27017/")
-
-    return g.db[DB_NAME]["Functions"]
-
-
-@app.teardown_appcontext
-def teardown_db(exception):
-    db = g.pop('db', None)
-
-    if db is not None:
-        db.close()
-
 
 @app.route("/")
 def hello_world():
@@ -159,7 +143,7 @@ def get_function(function_id):
     # TODO: Log properly
     # TODO: Maybe change the functions in entities to ObjectIDs, not strings?
     print(f"Looking for function: {function_id}")
-    result = g.functions.find_one(ObjectId(function_id))
+    result = get_functions().find_one(ObjectId(function_id))
 
     if result is None:
         return Response("Not Found", status=404)
