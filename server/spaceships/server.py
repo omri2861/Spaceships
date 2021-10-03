@@ -1,8 +1,10 @@
 import os
+import time
 
 from flask import Flask, Response
 from bson.json_util import dumps
 from bson.objectid import ObjectId
+from flask_socketio import SocketIO
 
 from spaceships.context import init_db
 from spaceships.blueprints.elements import elements
@@ -20,8 +22,8 @@ def create_app():
 
     return app
 
-
 app = create_app()
+socketio = SocketIO(app)
 
 # TODO: Unite /element and /elements routes
 app.register_blueprint(elements, url_prefix="/api")
