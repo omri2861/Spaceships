@@ -8,24 +8,32 @@ import {
   Button,
   LinearProgress,
   Typography,
+  CircularProgress,
+  Grid,
 } from "@material-ui/core";
 import { useHistory, useParams } from "react-router";
 import useSnackbar from "../../Snackbar";
 import axios from "axios";
 import io from "socket.io-client";
-import { makeStyles } from "@material-ui/styles";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minWidth: "500px",
-  },
-}));
+function LoadingCircle({ show }) {
+  if (!show) {
+    return null;
+  }
+
+  return (
+    <Grid container alignItems="center" justifyContent="center">
+      <Grid item>
+        <CircularProgress />
+      </Grid>
+    </Grid>
+  );
+}
 
 export default function FunctionDialog() {
-  const classes = useStyles();
-
   const [func, setFunc] = React.useState({ label: "", args: {}, _id: "" });
   const [progress, setProgress] = React.useState(0);
+  const [isRunning, setIsRunning] = React.useState(false);
 
   const history = useHistory();
   const { showError } = useSnackbar();
@@ -33,15 +41,23 @@ export default function FunctionDialog() {
   const { funcId } = useParams();
 
   const handleClose = () => {
+    if (isRunning) {
+      // We don't want to close the dialog if the function is still running
+      return;
+    }
     history.push("/"); // TODO: Go back, not home
   };
 
   const runFunction = () => {
     const socket = io("http://localhost:5000");
+    setIsRunning(true);
     socket.on("progress", (newProgress) => {
       setProgress(newProgress.value);
     });
-    socket.on("done", () => socket.close());
+    socket.on("done", () => {
+      socket.close();
+      setIsRunning(false);
+    });
     socket.emit("run", { funcId, entity: "omri" });
   };
 
@@ -67,12 +83,17 @@ export default function FunctionDialog() {
         <DialogContentText id="function-dialog-description">
           <Typography>{JSON.stringify(func.args)}</Typography>
         </DialogContentText>
+        <LoadingCircle show={isRunning} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} style={{ color: "red" }}>
+        <Button
+          onClick={handleClose}
+          style={isRunning ? {} : { color: "red" }}
+          disabled={isRunning}
+        >
           Cancel
         </Button>
-        <Button onClick={runFunction} autoFocus>
+        <Button onClick={runFunction} autoFocus disabled={isRunning}>
           Run
         </Button>
       </DialogActions>
