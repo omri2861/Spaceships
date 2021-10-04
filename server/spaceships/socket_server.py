@@ -25,7 +25,7 @@ def run_function(json):
     for i in range(0, 101, 10):
         time.sleep(1)
         print(f"Progress: {i}%")
-        socketio.emit("progress", f"{i}%")
+        socketio.emit("progress", {"value": i})
     
     socketio.emit("done")
 

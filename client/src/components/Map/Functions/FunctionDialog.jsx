@@ -6,18 +6,31 @@ import {
   DialogContentText,
   DialogActions,
   Button,
+  LinearProgress,
+  Typography,
 } from "@material-ui/core";
 import { useHistory, useParams } from "react-router";
 import useSnackbar from "../../Snackbar";
 import axios from "axios";
 import io from "socket.io-client";
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    minWidth: "500px",
+  },
+}));
 
 export default function FunctionDialog() {
+  const classes = useStyles();
+
   const [func, setFunc] = React.useState({ label: "", args: {}, _id: "" });
-  const [progress, setProgress] = React.useState("0%");
+  const [progress, setProgress] = React.useState(0);
 
   const history = useHistory();
   const { showError } = useSnackbar();
+
+  const { funcId } = useParams();
 
   const handleClose = () => {
     history.push("/"); // TODO: Go back, not home
@@ -26,13 +39,11 @@ export default function FunctionDialog() {
   const runFunction = () => {
     const socket = io("http://localhost:5000");
     socket.on("progress", (newProgress) => {
-      setProgress(newProgress);
+      setProgress(newProgress.value);
     });
     socket.on("done", () => socket.close());
     socket.emit("run", { funcId, entity: "omri" });
   };
-
-  let { funcId } = useParams();
 
   React.useEffect(() => {
     axios
@@ -47,15 +58,14 @@ export default function FunctionDialog() {
       onClose={handleClose}
       aria-labelledby="function-dialog-title"
       aria-describedby="function-dialog-description"
+      fullWidth="true"
+      minWidth="sm"
     >
       <DialogTitle>{func.label}</DialogTitle>
       <DialogContent>
         {/* TODO: Add description for each function */}
         <DialogContentText id="function-dialog-description">
-          {JSON.stringify(func.args)}
-          <br />
-          Progress:
-          {progress}
+          <Typography>{JSON.stringify(func.args)}</Typography>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -66,6 +76,7 @@ export default function FunctionDialog() {
           Run
         </Button>
       </DialogActions>
+      <LinearProgress variant="determinate" value={progress} />
     </Dialog>
   );
 }
