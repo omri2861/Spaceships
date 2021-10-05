@@ -11,7 +11,8 @@ setup(
     install_requires=[
         'flask',
         'python-dotenv',
-        'pymongo'
+        'pymongo',
+        'eventlet'
     ],
     # package_data={'exampleproject': ['data/schema.json']}
 )

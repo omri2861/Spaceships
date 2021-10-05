@@ -49,7 +49,7 @@ export default function FunctionDialog() {
   };
 
   const runFunction = () => {
-    const socket = io("http://localhost:5000");
+    const socket = io("http://localhost:8000/");
     setIsRunning(true);
     socket.on("progress", (newProgress) => {
       setProgress(newProgress.value);

@@ -70,3 +70,13 @@ box, and it seemed to give me less trouble.
 I also had some trouble making the http server and the flask socketio server
 run from the same python program. This might be because I didn't set a
 namespace to the socket.io events, and I should.
+
+**UPDATE**: The final solution was to connect directly to the server, meaning
+specifing the `localhost` address and port of the server, instead of using
+React's development proxy.
+
+React's development proxy doesn't support the websockets traffic (I think that's
+the escelate HTTP command? Or something like that...), so you can't route it through
+there. It has nothing to do with the namespace or the event manager. However,
+`eventlet` is required to make this thing work. It doesn't work with `gevent`,
+or Flask's default.
