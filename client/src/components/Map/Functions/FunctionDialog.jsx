@@ -15,6 +15,7 @@ import { useHistory, useParams } from "react-router";
 import useSnackbar from "../../Snackbar";
 import axios from "axios";
 import io from "socket.io-client";
+import AutoForm from "../../AutoForm";
 
 function LoadingCircle({ show }) {
   if (!show) {
@@ -81,7 +82,7 @@ export default function FunctionDialog() {
       <DialogContent>
         {/* TODO: Add description for each function */}
         <DialogContentText id="function-dialog-description">
-          <Typography>{JSON.stringify(func.args)}</Typography>
+          <AutoForm />
         </DialogContentText>
         <LoadingCircle show={isRunning} />
       </DialogContent>
