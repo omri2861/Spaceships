@@ -1,10 +1,14 @@
 import { Grid, TextField, Button } from "@material-ui/core";
-import { FormikContext, useFormik } from "formik";
+import { useFormik } from "formik";
 
-const typeToComponent = {};
+const StringField = (props) => <TextField {...props} />;
+const NumberField = (props) => <TextField type="number" {...props} />;
+
+// TODO: Settle on same / different fields for ints/ floats
+const typeToComponent = {int: NumberField, string: StringField};
 
 export default function AutoForm(props) {
-  const formDef = { gallons: { type: "int" }, engines: { type: "int" } };
+  const formDef = { gallons: { type: "int" }, newName: { type: "string" } };
   let initialValues = {};
   for (let fieldName in formDef) {
     initialValues[fieldName] = "";
@@ -15,11 +19,16 @@ export default function AutoForm(props) {
       console.log(formik.values);
   }
 
+  const getFormElement = (name, properties) => {
+      let constructor = typeToComponent[properties.type];
+      return constructor({id: name, label: name, ...formik.getFieldProps(name)});
+  };
+
   return (
     <Grid container spacing={3}>
-      {Object.keys(formDef).map((name) => (
+      {Object.entries(formDef).map(([name, properties]) => (
         <Grid item>
-          <TextField id={name} label={name} {...formik.getFieldProps(name)} />
+          {getFormElement(name, properties)}
         </Grid>
       ))}
       <Grid item>
