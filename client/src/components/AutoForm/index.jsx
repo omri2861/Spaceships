@@ -20,15 +20,27 @@ const typeToComponent = {
   bool: BoolField,
 };
 
+const defaultValues = {
+  int: 0,
+  string: "",
+  bool: false,
+};
+
 export default function AutoForm(props) {
   const formDef = {
     gallons: { type: "int" },
-    newName: { type: "string" },
+    newName: { type: "string", default: "Levy" },
     useDalkan: { type: "bool" },
   };
+  
+  // TODO: Validate form definition first
   let initialValues = {};
   for (let fieldName in formDef) {
-    initialValues[fieldName] = "";
+    if (formDef[fieldName].default !== undefined) {
+      initialValues[fieldName] = formDef[fieldName].default;
+    } else {
+      initialValues[fieldName] = defaultValues[formDef[fieldName].type];
+    }
   }
 
   const formik = useFormik({ initialValues });
