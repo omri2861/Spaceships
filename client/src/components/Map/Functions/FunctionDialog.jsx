@@ -88,15 +88,13 @@ export default function FunctionDialog() {
       onClose={handleClose}
       aria-labelledby="function-dialog-title"
       aria-describedby="function-dialog-description"
-      fullWidth="true"
-      minWidth="sm"
+      fullWidth
+      maxWidth="sm"
     >
       <DialogTitle>{func.label}</DialogTitle>
       <DialogContent>
         {/* TODO: Add description for each function */}
-        <DialogContentText id="function-dialog-description">
           <AutoForm definition={func.args} formik={formik} />
-        </DialogContentText>
         <LoadingCircle show={isRunning} />
       </DialogContent>
       <DialogActions>
