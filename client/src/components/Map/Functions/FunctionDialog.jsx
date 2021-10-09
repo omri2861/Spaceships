@@ -58,6 +58,10 @@ export default function FunctionDialog() {
     socket.emit("run", { funcId, entity: entityId, args: values });
   };
 
+  // NOTE: React thinks that the component changes from controlled to uncontrolled, since the
+  // initial values are only given once the useEffect hook ends. Hence, the initial values are
+  // always {}.
+  // TODO: Fix this issue
   const formik = useFormik({
     initialValues: getInitialValues(func.args),
     onSubmit: runFunction,
