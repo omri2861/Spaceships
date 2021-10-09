@@ -45,12 +45,6 @@ export default function FunctionDialog() {
 
   const { funcId, entityId } = useParams();
 
-  const definition = {
-    gallons: { type: "int" },
-    newName: { type: "string", default: "Levy" },
-    useDalkan: { type: "bool" },
-  };
-
   const runFunction = (values) => {
     const socket = io("http://localhost:8000/");
     setIsRunning(true);
@@ -65,7 +59,7 @@ export default function FunctionDialog() {
   };
 
   const formik = useFormik({
-    initialValues: getInitialValues(definition),
+    initialValues: getInitialValues(func.args),
     onSubmit: runFunction,
   });
 
@@ -97,7 +91,7 @@ export default function FunctionDialog() {
       <DialogContent>
         {/* TODO: Add description for each function */}
         <DialogContentText id="function-dialog-description">
-          <AutoForm definition={definition} formik={formik} />
+          <AutoForm definition={func.args} formik={formik} />
         </DialogContentText>
         <LoadingCircle show={isRunning} />
       </DialogContent>

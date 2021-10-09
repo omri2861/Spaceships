@@ -29,6 +29,10 @@ export default function AutoForm({definition, formik}) {
 
   const getFormElement = (name, properties) => {
     let constructor = typeToComponent[properties.type];
+    if (undefined === constructor) {
+      console.error(`Undefined constructor for type '${properties.type}'`);
+      return null;
+    }
     return constructor({
       id: name,
       label: name,
