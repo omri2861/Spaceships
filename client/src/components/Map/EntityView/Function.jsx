@@ -8,7 +8,7 @@ function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
 
-export default function EntityFunction({ functionId }) {
+export default function EntityFunction({ entityId, functionId }) {
   const [funcDef, setFuncDef] = React.useState({ label: "" });
 
   const { showError } = useSnackbar();
@@ -24,7 +24,7 @@ export default function EntityFunction({ functionId }) {
   }, [functionId]);
 
   return (
-    <ListItemLink onClick={() => history.push(`/run/${functionId}`)}>
+    <ListItemLink onClick={() => history.push(`/run/${entityId}/${functionId}`)}>
       {funcDef.label}
     </ListItemLink>
   );

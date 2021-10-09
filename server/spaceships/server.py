@@ -71,6 +71,9 @@ def run_function(json):
     function_id = json["funcId"]
     entity = json["entity"]
     print(f"Running function {function_id} for {entity}")
+    print("Arguments:")
+    for arg_name, arg_value in json["args"].items():
+        print(f"{arg_name}: {arg_value}")
     
     for i in range(0, 101, 10):
         time.sleep(1)

@@ -87,7 +87,7 @@ export default function Map() {
           <Route path="/addEntity">
             <AddEntityDialog setElements={setElements} />
           </Route>
-          <Route path="/run/:funcId">
+          <Route path="/run/:entityId/:funcId">
             <FunctionDialog />
           </Route>
         </Switch>

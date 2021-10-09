@@ -73,7 +73,7 @@ export default function EntityDetails({ entity }) {
       <Divider />
       <List>
         {entity.functions.map((func) => (
-          <EntityFunction key={func} functionId={func} />
+          <EntityFunction key={func} functionId={func} entityId={entity.id} />
         ))}
       </List>
     </div>

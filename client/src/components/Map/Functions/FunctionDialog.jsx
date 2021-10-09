@@ -39,7 +39,7 @@ export default function FunctionDialog() {
   const history = useHistory();
   const { showError } = useSnackbar();
 
-  const { funcId } = useParams();
+  const { funcId, entityId } = useParams();
 
   const handleClose = () => {
     if (isRunning) {
@@ -59,7 +59,7 @@ export default function FunctionDialog() {
       socket.close();
       setIsRunning(false);
     });
-    socket.emit("run", { funcId, entity: "omri" });
+    socket.emit("run", { funcId, entity: entityId, args: {"gallons": "int"} });
   };
 
   React.useEffect(() => {
