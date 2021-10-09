@@ -7,29 +7,13 @@ import {
   DialogActions,
   Button,
   LinearProgress,
-  Typography,
-  CircularProgress,
-  Grid,
 } from "@material-ui/core";
 import { useHistory, useParams } from "react-router";
 import useSnackbar from "../../Snackbar";
 import axios from "axios";
 import io from "socket.io-client";
 import AutoForm from "../../AutoForm";
-
-function LoadingCircle({ show }) {
-  if (!show) {
-    return null;
-  }
-
-  return (
-    <Grid container alignItems="center" justifyContent="center">
-      <Grid item>
-        <CircularProgress />
-      </Grid>
-    </Grid>
-  );
-}
+import LoadingCircle from "./LoadingCircle";
 
 export default function FunctionDialog() {
   const [func, setFunc] = React.useState({ label: "", args: {}, _id: "" });
