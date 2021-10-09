@@ -14,6 +14,26 @@ import axios from "axios";
 import io from "socket.io-client";
 import AutoForm from "../../AutoForm";
 import LoadingCircle from "./LoadingCircle";
+import { useFormik } from "formik";
+
+const defaultValues = {
+  int: 0,
+  string: "",
+  bool: false,
+};
+
+function getInitialValues(definition) {
+  let initialValues = {};
+  for (let fieldName in definition) {
+    if (definition[fieldName].default !== undefined) {
+      initialValues[fieldName] = definition[fieldName].default;
+    } else {
+      initialValues[fieldName] = defaultValues[definition[fieldName].type];
+    }
+  }
+
+  return initialValues;
+}
 
 export default function FunctionDialog() {
   const [func, setFunc] = React.useState({ label: "", args: {}, _id: "" });
@@ -25,12 +45,10 @@ export default function FunctionDialog() {
 
   const { funcId, entityId } = useParams();
 
-  const handleClose = () => {
-    if (isRunning) {
-      // We don't want to close the dialog if the function is still running
-      return;
-    }
-    history.push("/"); // TODO: Go back, not home
+  const definition = {
+    gallons: { type: "int" },
+    newName: { type: "string", default: "Levy" },
+    useDalkan: { type: "bool" },
   };
 
   const runFunction = () => {
@@ -43,7 +61,17 @@ export default function FunctionDialog() {
       socket.close();
       setIsRunning(false);
     });
-    socket.emit("run", { funcId, entity: entityId, args: {"gallons": "int"} });
+    socket.emit("run", { funcId, entity: entityId, args: { gallons: "int" } });
+  };
+  
+  const formik = useFormik({ initialValues: getInitialValues(definition) });
+
+  const handleClose = () => {
+    if (isRunning) {
+      // We don't want to close the dialog if the function is still running
+      return;
+    }
+    history.push("/"); // TODO: Go back, not home
   };
 
   React.useEffect(() => {
@@ -66,7 +94,7 @@ export default function FunctionDialog() {
       <DialogContent>
         {/* TODO: Add description for each function */}
         <DialogContentText id="function-dialog-description">
-          <AutoForm />
+          <AutoForm definition={definition} formik={formik} />
         </DialogContentText>
         <LoadingCircle show={isRunning} />
       </DialogContent>

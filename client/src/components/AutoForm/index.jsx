@@ -20,30 +20,9 @@ const typeToComponent = {
   bool: BoolField,
 };
 
-const defaultValues = {
-  int: 0,
-  string: "",
-  bool: false,
-};
-
-export default function AutoForm(props) {
-  const formDef = {
-    gallons: { type: "int" },
-    newName: { type: "string", default: "Levy" },
-    useDalkan: { type: "bool" },
-  };
-  
+export default function AutoForm({definition, formik}) {
   // TODO: Validate form definition first
-  let initialValues = {};
-  for (let fieldName in formDef) {
-    if (formDef[fieldName].default !== undefined) {
-      initialValues[fieldName] = formDef[fieldName].default;
-    } else {
-      initialValues[fieldName] = defaultValues[formDef[fieldName].type];
-    }
-  }
 
-  const formik = useFormik({ initialValues });
   const onSubmit = () => {
     console.log(formik.values);
   };
@@ -59,7 +38,7 @@ export default function AutoForm(props) {
 
   return (
     <Grid container spacing={3}>
-      {Object.entries(formDef).map(([name, properties]) => (
+      {Object.entries(definition).map(([name, properties]) => (
         <Grid item>{getFormElement(name, properties)}</Grid>
       ))}
       <Grid item>
