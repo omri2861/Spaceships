@@ -10,9 +10,10 @@ setup(
     packages=find_packages(include=['spaceships']),
     install_requires=[
         'flask',
+        'eventlet',
+        "flask-socketio",
         'python-dotenv',
         'pymongo',
-        'eventlet'
     ],
     # package_data={'exampleproject': ['data/schema.json']}
 )
