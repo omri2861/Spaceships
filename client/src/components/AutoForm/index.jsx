@@ -21,11 +21,6 @@ const typeToComponent = {
 };
 
 export default function AutoForm({definition, formik}) {
-  // TODO: Validate form definition first
-
-  const onSubmit = () => {
-    console.log(formik.values);
-  };
 
   const getFormElement = (name, properties) => {
     let constructor = typeToComponent[properties.type];
@@ -45,9 +40,6 @@ export default function AutoForm({definition, formik}) {
       {Object.entries(definition).map(([name, properties]) => (
         <Grid item key={name}>{getFormElement(name, properties)}</Grid>
       ))}
-      <Grid item>
-        <Button onClick={onSubmit}>Submit</Button>
-      </Grid>
     </Grid>
   );
 }

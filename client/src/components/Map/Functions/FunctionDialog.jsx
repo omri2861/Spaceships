@@ -23,6 +23,7 @@ const defaultValues = {
 };
 
 function getInitialValues(definition) {
+  // TODO: Validate form definition first
   let initialValues = {};
   for (let fieldName in definition) {
     if (definition[fieldName].default !== undefined) {
