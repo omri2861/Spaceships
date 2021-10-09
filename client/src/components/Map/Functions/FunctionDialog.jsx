@@ -12,29 +12,9 @@ import { useHistory, useParams } from "react-router";
 import useSnackbar from "../../Snackbar";
 import axios from "axios";
 import io from "socket.io-client";
-import AutoForm from "../../AutoForm";
+import {AutoForm, getInitialValues} from "../../AutoForm";
 import LoadingCircle from "./LoadingCircle";
 import { useFormik } from "formik";
-
-const defaultValues = {
-  int: 0,
-  string: "",
-  bool: false,
-};
-
-function getInitialValues(definition) {
-  // TODO: Validate form definition first
-  let initialValues = {};
-  for (let fieldName in definition) {
-    if (definition[fieldName].default !== undefined) {
-      initialValues[fieldName] = definition[fieldName].default;
-    } else {
-      initialValues[fieldName] = defaultValues[definition[fieldName].type];
-    }
-  }
-
-  return initialValues;
-}
 
 export default function FunctionDialog() {
   const [func, setFunc] = React.useState({ label: "", args: {}, _id: "" });
