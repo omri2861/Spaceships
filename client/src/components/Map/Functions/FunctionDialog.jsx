@@ -51,7 +51,7 @@ export default function FunctionDialog() {
     useDalkan: { type: "bool" },
   };
 
-  const runFunction = () => {
+  const runFunction = (values) => {
     const socket = io("http://localhost:8000/");
     setIsRunning(true);
     socket.on("progress", (newProgress) => {
@@ -61,10 +61,13 @@ export default function FunctionDialog() {
       socket.close();
       setIsRunning(false);
     });
-    socket.emit("run", { funcId, entity: entityId, args: { gallons: "int" } });
+    socket.emit("run", { funcId, entity: entityId, args: values });
   };
-  
-  const formik = useFormik({ initialValues: getInitialValues(definition) });
+
+  const formik = useFormik({
+    initialValues: getInitialValues(definition),
+    onSubmit: runFunction,
+  });
 
   const handleClose = () => {
     if (isRunning) {
@@ -106,7 +109,7 @@ export default function FunctionDialog() {
         >
           Cancel
         </Button>
-        <Button onClick={runFunction} autoFocus disabled={isRunning}>
+        <Button onClick={formik.handleSubmit} autoFocus disabled={isRunning}>
           Run
         </Button>
       </DialogActions>
