@@ -43,7 +43,7 @@ export default function AutoForm({definition, formik}) {
   return (
     <Grid container spacing={3}>
       {Object.entries(definition).map(([name, properties]) => (
-        <Grid item>{getFormElement(name, properties)}</Grid>
+        <Grid item key={name}>{getFormElement(name, properties)}</Grid>
       ))}
       <Grid item>
         <Button onClick={onSubmit}>Submit</Button>
