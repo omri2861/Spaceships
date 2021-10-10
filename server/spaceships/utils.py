@@ -1,3 +1,6 @@
+import importlib
+
+
 def fix_entry(entry):
     """
     Due to how pymongo works, and to the difference between bson and json format, if you simply dump
@@ -25,3 +28,14 @@ def fix_entries(cursor):
     """
     for entry in cursor:
         yield fix_entry(entry)
+
+
+def get_function_from_import_string(import_string):
+    module_name = import_string[:import_string.rindex(".")]
+
+    func_name = import_string.split(".")[-1]
+    print(f"mod: {module_name}\nfunc: {func_name}")
+
+    module = importlib.import_module(module_name)
+    return getattr(module, func_name)
+

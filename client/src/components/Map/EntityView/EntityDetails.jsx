@@ -52,6 +52,8 @@ function Field({ icon, value }) {
 export default function EntityDetails({ entity }) {
   const classes = useStyles();
 
+  // TODO: Reload entity to see changes once ran a function
+
   return (
     <div className={classes.root}>
       <img

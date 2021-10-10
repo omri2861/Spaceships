@@ -15,7 +15,10 @@ from dotenv import load_dotenv
 
 from spaceships.context import init_db
 from spaceships.blueprints.elements import elements
-from spaceships.blueprints.functions import functions
+from spaceships.blueprints.functions import functions, get_function
+
+from spaceships.context import get_entities, get_functions
+from spaceships.utils import get_function_from_import_string
 
 load_dotenv()
 
@@ -68,17 +71,29 @@ def handle_socketio_connect():
 
 @socketio.on("run")
 def run_function(json):
-    function_id = json["funcId"]
-    entity = json["entity"]
-    print(f"Running function {function_id} for {entity}")
-    print("Arguments:")
-    for arg_name, arg_value in json["args"].items():
-        print(f"{arg_name}: {arg_value}")
+    function_id = ObjectId(json["funcId"])
+    entity_id = ObjectId(json["entityId"])
+    entity = get_entities().find_one({"_id": entity_id})
+    function_definition = get_functions().find_one({"_id": function_id})
+
+    if entity is None or function_definition is None:
+        return Response(status=404)
+
+    function = get_function_from_import_string(function_definition["importString"])
+
+    print("##### Entity #####")
+    print(entity)
+    print("##### Function #####")
+    print(function_definition)
+
+    # TODO: Supply interface for updating progress
+    updated_entity = function(entity, **json["args"])
     
-    for i in range(0, 101, 10):
-        time.sleep(1)
-        print(f"Progress: {i}%")
-        socketio.emit("progress", {"value": i})
+    if updated_entity["_id"] != entity_id:
+        print("Error! entity id changed...")
+        return Response(status=500)
+    
+    get_entities().find_one_and_replace({"_id": entity_id}, updated_entity)
     
     socketio.emit("done")
 

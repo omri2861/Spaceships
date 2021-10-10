@@ -36,7 +36,7 @@ export default function FunctionDialog() {
       socket.close();
       setIsRunning(false);
     });
-    socket.emit("run", { funcId, entity: entityId, args: values });
+    socket.emit("run", { funcId, entityId, args: values });
   };
 
   // NOTE: React thinks that the component changes from controlled to uncontrolled, since the
