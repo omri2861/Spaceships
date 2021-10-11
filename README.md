@@ -7,8 +7,9 @@
 2. Functions aggregate pipeline
 3. Reload entities when they're view is opened
 4. Restructure components
-5. Change to typescript
-6. fix the `showError` in `useEffect` warning
+5. Implement error handling in user function
+6. Change to typescript
+7. fix the `showError` in `useEffect` warning
 
 ## Intro
 
