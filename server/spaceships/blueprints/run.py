@@ -1,3 +1,5 @@
+import time
+
 from typing import Optional
 from flask import Response
 from bson.objectid import ObjectId
@@ -8,12 +10,15 @@ from spaceships import socketio
 from spaceships.context import get_entities, get_functions
 from spaceships.utils import get_function_from_import_string
 
+UPDATE_DELAY = 0.2
 
+30
 class ProgressBar:
     def __init__(self, client: SocketIO):
         self.client = client
         self.total = None
         self.progress = 0
+        self.last_update = time.time()
 
     def set_total(self, total: int):
         if self.total is not None:
@@ -21,8 +26,20 @@ class ProgressBar:
 
         if total < 0:
             raise ValueError("Total progress bar value must be positive")
-
+        
         self.total = total
+
+    def _inform_client(self, percentage: int):
+        if percentage > 100:
+            raise ValueError("Cannot go beyond 100%")
+
+        if time.time() < self.last_update + UPDATE_DELAY:
+            # Only update the client in intervals of UPDATE_DELAY
+            # So the guage animation looks natural
+            # TODO: Move logic to client
+            return
+
+        self.client.emit("progress", {"value": percentage})
 
     def update(self, progress: int):
         """
@@ -34,7 +51,7 @@ class ProgressBar:
             raise RuntimeError("Total not yet set")
 
         self.progress += progress
-        self.client.emit("progress", {"value": round((self.progress / self.total) * 100)})
+        self._inform_client((self.progress / self.total) * 100)
 
 
 @socketio.on("connect")

@@ -23,6 +23,7 @@ def refuel(entity, pbar: ProgressBar, gallons=1):
         time.sleep(REFUEL_TIME)
     
     final_refuel = gallons % REFUEL_UNIT
+    # TODO: Fix this stupid bug
     if final_refuel != 0:
         entity['data']['fuel'] += final_refuel
         pbar.update(final_refuel)
