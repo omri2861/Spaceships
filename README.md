@@ -4,10 +4,11 @@
 ## TODO
 
 1. Implement progress updates
-2. Reload entities when they're view is opened
-3. Restructure components
-4. Change to typescript
-5. fix the `showError` in `useEffect` warning
+2. Functions aggregate pipeline
+3. Reload entities when they're view is opened
+4. Restructure components
+5. Change to typescript
+6. fix the `showError` in `useEffect` warning
 
 ## Intro
 
