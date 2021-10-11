@@ -3,7 +3,7 @@
 
 ## TODO
 
-1. Implement progress updates
+1. ~~Implement progress updates~~
 2. Functions aggregate pipeline
 3. Reload entities when they're view is opened
 4. Restructure components
