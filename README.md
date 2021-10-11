@@ -1,5 +1,14 @@
 # Spaceships
 
+
+## TODO
+
+1. Implement progress updates
+2. Reload entities when they're view is opened
+3. Restructure components
+4. Change to typescript
+5. fix the `showError` in `useEffect` warning
+
 ## Intro
 
 This project is a nice web utility which helps track interstellar transportation networks.
