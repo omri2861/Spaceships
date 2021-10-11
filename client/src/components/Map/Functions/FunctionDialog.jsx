@@ -75,7 +75,7 @@ export default function FunctionDialog() {
       <DialogTitle>{func.label}</DialogTitle>
       <DialogContent style={{"overflow": "visible"}}>
       <DialogContentText>{func.description}</DialogContentText>
-          <AutoForm definition={func.args} formik={formik} />
+          <AutoForm definition={func.args} formik={formik} disabled={isRunning}/>
         <LoadingCircle show={isRunning} />
       </DialogContent>
       <DialogActions>

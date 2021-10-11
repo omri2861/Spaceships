@@ -38,8 +38,8 @@ const typeToComponent = {
   bool: BoolField,
 };
 
-function AutoForm({ definition, formik }) {
-  const getFormElement = (name, properties) => {
+function AutoForm({ definition, formik, disabled }) {
+  const getFormElement = (name, properties, disabled) => {
     let constructor = typeToComponent[properties.type];
     if (undefined === constructor) {
       console.error(`Undefined constructor for type '${properties.type}'`);
@@ -49,6 +49,7 @@ function AutoForm({ definition, formik }) {
       id: name,
       label: name,
       ...formik.getFieldProps(name),
+      disabled
     });
   };
 
@@ -56,7 +57,7 @@ function AutoForm({ definition, formik }) {
     <Grid container spacing={3}>
       {Object.entries(definition).map(([name, properties]) => (
         <Grid item key={name}>
-          {getFormElement(name, properties)}
+          {getFormElement(name, properties, disabled)}
         </Grid>
       ))}
     </Grid>
