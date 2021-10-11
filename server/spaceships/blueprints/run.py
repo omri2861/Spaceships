@@ -35,8 +35,7 @@ class ProgressBar:
 
         if time.time() < self.last_update + UPDATE_DELAY:
             # Only update the client in intervals of UPDATE_DELAY
-            # So the guage animation looks natural
-            # TODO: Move logic to client
+            # So the guage animation looks natural, and to save round trips
             return
 
         self.client.emit("progress", {"value": percentage})
